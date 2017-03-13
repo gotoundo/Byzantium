@@ -99,7 +99,7 @@ public class LayoutManager : MonoBehaviour {
         {
            // Debug.LogError("JOB IS NULL");
             JobTitleText.text = "No Job Selected";
-            JobDescriptionText.text = "Select a job to get to work";
+            JobDescriptionText.text = "Go to sleep and see if you get new patrons tomorrow.";
         }
         else
         {
@@ -171,9 +171,29 @@ public class LayoutManager : MonoBehaviour {
     public void UpdateSpellWindow()
     {
         LoadSpellDescription();
-        SpellCastButton.interactable = Engine.AcceptedJobs.Contains(currentJob) &&  Engine.hasActionsRemaining &&
-            currentJob != null && !currentJob.isComplete() &&
-            Engine.Hero != null && Engine.Hero.canCastSpell(currentSpell);
+
+        if (currentSpell == null || Engine.Hero == null)
+        {
+            SpellCastButton.interactable = false;
+            return;
+        }
+
+        bool validJobTarget = !currentSpell.requiresValidTarget || (currentJob != null && Engine.AcceptedJobs.Contains(currentJob) && currentSpell.helpsCompleteJob(currentJob) && !currentJob.isComplete());
+        bool hasMaterials = Engine.Hero.hasMaterialsForSpell(currentSpell);
+        bool hasActions = Engine.hasActionsRemaining;
+        SpellCastButton.interactable = validJobTarget && hasMaterials && hasActions;
+
+        Text buttonText = SpellCastButton.gameObject.GetComponentInChildren<Text>();
+
+        if (!hasActions)
+            buttonText.text = "Out of Actions";
+        else if (!validJobTarget)
+            buttonText.text = "No Target";
+        else if (!hasMaterials)
+            buttonText.text = "Missing Materials";
+        else
+            buttonText.text = "Cast Spell";
+
     }
 
 
@@ -333,7 +353,7 @@ public class LayoutManager : MonoBehaviour {
             scrollButton.gameObject.SetActive(false);
 
         int currentButtonPosition = 0;
-        foreach (KeyValuePair<SpellID, Market.Listing> scrollListings in currentMarket.Scrolls) //go through each of the market's scrolls
+        foreach (KeyValuePair<SpellID, Listing> scrollListings in currentMarket.Scrolls) //go through each of the market's scrolls
         {
             if (MarketPurchaseScrollButtons.Length > currentButtonPosition) //there's more scrolls to show
             {

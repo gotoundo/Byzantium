@@ -437,9 +437,9 @@ public class Job
     {
         string output = "";
         if(accepted)
-            output += "\n ACCEPTED JOB \n";
+            output += "ACCEPTED JOB \n";
         else
-            output += "\n AVAILABLE JOB \n";
+            output += "AVAILABLE JOB \n";
 
         output += patron.name + " of House " + patron.house + "\n";
 

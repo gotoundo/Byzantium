@@ -18,8 +18,9 @@ public class Engine : MonoBehaviour
 {
     public static int currentDay = 0;
     public const int daysInWeek = 7;
-    public const float jobMatchesHeroEffectChance = 0.3f;
+    public const float jobMatchesHeroEffectChance = 0.5f;
     public const float jobMatchesHeroTierChance = 0.3f;
+    public const float jobCanMatchToMarketScrollsChance = 0.8f;
     const int minimumPrestigeGuaranteedJobEffect = 1;
     
     public static Player Hero;
@@ -106,7 +107,7 @@ public class Engine : MonoBehaviour
 
         if (Hero.Tier == 1)
         {
-            maxNewJobs = 2;
+            maxNewJobs = 3;
             if (Hero.prestige == 0)
                 maxNewJobs = 1;
         }
@@ -119,13 +120,22 @@ public class Engine : MonoBehaviour
         Job.AllRandomJobs.Shuffle();
         for (int i = 0; i < Random.Range(minNewJobs, maxNewJobs+1); i++)
         {
-            bool guaranteedApplicability = Random.Range(0, 1f) < jobMatchesHeroEffectChance || Hero.prestige < minimumPrestigeGuaranteedJobEffect; //otherwise will not necissarily be applicable to your current skills
-            bool guaranteedEqualTier = Random.Range(0, 1f) < jobMatchesHeroTierChance; //otherwise can search below
+            bool guaranteedApplicability = Random.Range(0, 1f) < jobMatchesHeroEffectChance; //search returns true only if hero can produce desire effect
+            bool guaranteedEqualTier = Random.Range(0, 1f) < jobMatchesHeroTierChance; //search returns true only if the job is the exact same tier as Hero (otherwise can include lower tiers, and slight chance for upper tier)
+            bool expandedApplicability = Random.Range(0, 1f) < jobCanMatchToMarketScrollsChance; //search will return true if the effect can be bought in unlocked stores
 
+            //For the early part of the game, player is guaranteed to get jobs they can solve
+            if(Hero.prestige < minimumPrestigeGuaranteedJobEffect)
+            {
+                guaranteedApplicability = true;
+                guaranteedEqualTier = true;
+                expandedApplicability = false;
+            }
+            
             //First try new jobs of my level or lower
-            var query = SearchJobs(Job.AllRandomJobs, guaranteedApplicability, guaranteedEqualTier);
+            var query = SearchJobs(Job.AllRandomJobs, guaranteedApplicability, guaranteedEqualTier, expandedApplicability);
             if (query.Count() == 0)
-                query = SearchJobs(Job.AllRandomJobs, false, false);
+                query = SearchJobs(Job.AllRandomJobs, false, false, true);
             if (query.Count() > 0)
             {
                 Job chosenJob = query.First();
@@ -154,19 +164,62 @@ public class Engine : MonoBehaviour
 
     }
 
-    static IEnumerable<Job> SearchJobs(IEnumerable<Job> jobCollection, bool guaranteedApplicability, bool guaranteedEqualTier)
+    static IEnumerable<Job> SearchJobs(IEnumerable<Job> jobCollection, bool guaranteedApplicability, bool guaranteedEqualTier, bool expandedApplicability)
     {
         bool aboveTier = Random.Range(0, 1f) < .15f;
 
+        List<SpellEffect> storeEffects = PurchasableEffects();
+
         var query = from job in jobCollection
                     where (!guaranteedEqualTier && job.Tier <= Hero.Tier + (aboveTier? 1 : 0)) || job.Tier == Hero.Tier
-                    where (!guaranteedApplicability) || Hero.CanProduceEffects(job.EffectsRequired)
+                    where (!guaranteedApplicability) || Hero.CanProduceEffects(job.EffectsRequired) || (expandedApplicability && MarketCanProduceEffects(job.EffectsRequired))
                     select job;
 
         Debug.Log("Searching... " + guaranteedApplicability + ", " + guaranteedEqualTier + "... Found " + query.Count());
 
         return query;
     }
+
+
+    //Checking market effects methods
+    static List<SpellEffect> PurchasableEffects()
+    {
+        //Make a list of all effects that spells in available stores can produce
+        List<SpellEffect> storeEffects = new List<SpellEffect>();
+        foreach(KeyValuePair<MarketID, Market> marketEntry in Market.Definitions)
+        {
+            if (marketEntry.Value.Unlocked)
+            {
+                foreach(KeyValuePair <SpellID,Listing> listingEntry in marketEntry.Value.Scrolls)
+                {
+                    if(listingEntry.Value.quantity > 0)
+                    {
+                        Spell scrollSpell = Spell.Definitions[listingEntry.Key];
+                        foreach(SpellEffect effect in scrollSpell.EffectsProduced)
+                        {
+                            if (!storeEffects.Contains(effect))
+                                storeEffects.Add(effect);
+                        }
+                    }
+                }
+            }
+        }
+
+        return storeEffects;
+    }
+
+    static bool MarketCanProduceEffects(IEnumerable<SpellEffect> effects)
+    {
+        IEnumerable<SpellEffect> myEffects = PurchasableEffects();
+        foreach (SpellEffect effect in effects)
+        {
+            if (myEffects.Contains(effect))
+                return true;
+        }
+        return false;
+    }
+
+
 
     public static void CheckEvents()
     {
@@ -203,7 +256,7 @@ public class Engine : MonoBehaviour
         return CanBuyFromListing(currentMarket.Scrolls[spell]);
     }
 
-    public static bool CanBuyFromListing(Market.Listing listing)
+    public static bool CanBuyFromListing(Listing listing)
     {
         if (!currentMarket.Open)
             return false;

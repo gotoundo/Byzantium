@@ -285,88 +285,6 @@ public class Spell
            .addIngredient(IngredientID.Quartz, 2);
 
 
-        /*
-
-        //Doubles
-        new Spell("Chattering Hex", SpellID.ChatteringHex, 2)
-            .setEffects(SpellEffect.EmbarassmentHex, SpellEffect.CompelTruthtelling)
-            .addIngredient(IngredientID.Fang, 1)
-            .addIngredient(IngredientID.Ink, 1);
-
-        new Spell("Fey Dust", SpellID.FeyDust, 2)
-            .setEffects(SpellEffect.AlterMemory, SpellEffect.KnowEnchantment)
-            .addIngredient(IngredientID.Fang, 1)
-            .addIngredient(IngredientID.Ink, 1);
-
-        new Spell("Satyr's Cord", SpellID.SatyrsCord, 2)
-            .setEffects(SpellEffect.DeafnessHex, SpellEffect.SanctifyWedding)
-            .addIngredient(IngredientID.Fang, 1)
-            .addIngredient(IngredientID.Ink, 1);
-
-        new Spell("Reflection of Venus", SpellID.ReflectionOfVenus, 2)
-            .setEffects(SpellEffect.KnowAdmirer, SpellEffect.CureImpotence)
-            .addIngredient(IngredientID.Fang, 1)
-            .addIngredient(IngredientID.Ink, 1);
-
-        new Spell("Hideous Masquerade", SpellID.HideousMasquerade, 2)
-            .setEffects(SpellEffect.BanishGhost, SpellEffect.IllusionOfUgliness)
-            .addIngredient(IngredientID.Fang, 1)
-            .addIngredient(IngredientID.Ink, 1);
-
-        //Singles
-        //EmbarassmentHex, CompelTruthtelling, AlterMemory, KnowEnchantment, DeafnessHex, SanctifyWedding, KnowAdmirer, CureImpotence, BanishGhost, IllusionOfUgliness
-        new Spell("Embarassment Hex", SpellID.EmbarassmentHex, 2)
-            .setEffects(SpellEffect.EmbarassmentHex)
-            .addIngredient(IngredientID.Fang, 1)
-            .addIngredient(IngredientID.Ink, 1);
-
-        new Spell("Compel Truthtelling", SpellID.CompelTruthtelling, 2)
-            .setEffects(SpellEffect.CompelTruthtelling)
-            .addIngredient(IngredientID.Fang, 1)
-            .addIngredient(IngredientID.Ink, 1);
-
-        new Spell("Alter Memory", SpellID.AlterMemory, 2)
-            .setEffects(SpellEffect.AlterMemory)
-            .addIngredient(IngredientID.Fang, 1)
-            .addIngredient(IngredientID.Ink, 1);
-
-        new Spell("Know Enchantment", SpellID.KnowEnchantment, 2)
-            .setEffects(SpellEffect.KnowEnchantment)
-            .addIngredient(IngredientID.Fang, 1)
-            .addIngredient(IngredientID.Ink, 1);
-
-        new Spell("Deafness Hex", SpellID.DeafnessHex, 2)
-            .setEffects(SpellEffect.DeafnessHex)
-            .addIngredient(IngredientID.Fang, 1)
-            .addIngredient(IngredientID.Ink, 1);
-
-        new Spell("Sanctify Wedding", SpellID.SanctifyWedding, 2)
-            .setEffects(SpellEffect.SanctifyWedding)
-            .addIngredient(IngredientID.Fang, 1)
-            .addIngredient(IngredientID.Ink, 1);
-
-        new Spell("Know Admirer", SpellID.KnowAdmirer, 2)
-            .setEffects(SpellEffect.KnowAdmirer)
-            .addIngredient(IngredientID.Fang, 1)
-            .addIngredient(IngredientID.Ink, 1);
-
-        new Spell("Cure Impotence", SpellID.CureImpotence, 2)
-            .setEffects(SpellEffect.CureImpotence)
-            .addIngredient(IngredientID.Fang, 1)
-            .addIngredient(IngredientID.Ink, 1);
-
-        new Spell("Banish Ghost", SpellID.BanishGhost, 2)
-            .setEffects(SpellEffect.BanishGhost)
-            .addIngredient(IngredientID.Fang, 1)
-            .addIngredient(IngredientID.Ink, 1);
-
-        new Spell("Illusion Of Ugliness", SpellID.IllusionOfUgliness, 2)
-            .setEffects(SpellEffect.IllusionOfUgliness)
-            .addIngredient(IngredientID.Fang, 1)
-            .addIngredient(IngredientID.Ink, 1);
-            */
-
-        //Tier 3 Spells
 
         //Tier 4 Spells
 
@@ -398,6 +316,7 @@ public class Spell
         skill = castTime;
         scrollCost = skill * 10;
         IngredientCost = new Dictionary<IngredientID, int>();
+        requiresValidTarget = true;
         Definitions.Add(id, this);
     }
 
@@ -408,15 +327,16 @@ public class Spell
     public int castTime;
     public int scrollCost;
     public int skill;
+    public bool requiresValidTarget;
     public Dictionary<IngredientID, int> IngredientCost;
     public List<ArtifactID> ArtifactsRequired;
     public List<SpellEffect> EffectsProduced;
 
     public string GetDescription()
     {
-        string output = description + "\n";
+        string output = "";//description + "\n";
 
-        output += "\n Skill " + skill + " Spell \n";
+        output += "Level " + skill + " " + domain+" Spell \n";
 
         output += "\n INGREDIENTS \n";
 
@@ -449,5 +369,19 @@ public class Spell
     {
         ArtifactsRequired = new List<ArtifactID>(artifacts);
         return this;
+    }
+
+    public bool helpsCompleteJob(Job job)
+    {
+        //bool helps = false;
+        foreach(SpellEffect effect in job.EffectsRequired)
+        {
+            if (EffectsProduced.Contains(effect) && !job.EffectsProvided.Contains(effect))
+                return true;
+        }
+
+        return false;
+
+                
     }
 }

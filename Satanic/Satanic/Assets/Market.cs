@@ -137,16 +137,18 @@ public class Market
 
 
     
-    public class Listing
+    
+}
+
+public class Listing
+{
+    public Listing(int cost, int maxQuantity)
     {
-        public Listing(int cost, int maxQuantity)
-        {
-            this.cost = cost;
-            this.maxQuantity = maxQuantity;
-            quantity = maxQuantity;
-        }
-        public int cost;
-        public int quantity;
-        public int maxQuantity;
+        this.cost = cost;
+        this.maxQuantity = maxQuantity;
+        quantity = maxQuantity;
     }
+    public int cost;
+    public int quantity;
+    public int maxQuantity;
 }

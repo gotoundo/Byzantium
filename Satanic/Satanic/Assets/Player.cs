@@ -69,7 +69,7 @@ public class Player : Wizard
     {
         if (!market.Wares.ContainsKey(ingredient))
             return false;
-        Market.Listing listing = market.Wares[ingredient];
+        Listing listing = market.Wares[ingredient];
         if (aurum < listing.cost)
             return false;
         if (listing.quantity <= 0)
@@ -122,7 +122,7 @@ public class Player : Wizard
         myIngredients[ingr] += amount;
     }
 
-    public bool canCastSpell(Spell spell)
+    public bool hasMaterialsForSpell(Spell spell)
     {
         foreach (KeyValuePair<IngredientID, int> entry in spell.IngredientCost)
         {
@@ -136,7 +136,7 @@ public class Player : Wizard
 
     public bool castSpell(Job job, Spell spell)
     {
-        if (!canCastSpell(spell))
+        if (!hasMaterialsForSpell(spell))
         {
             Debug.LogError("Casting Spell against permission...");
         }
