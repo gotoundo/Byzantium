@@ -6,10 +6,14 @@ using System.Linq;
 public enum DomainID { Waeor, Penumok, Immolian, Tempus, Anestra}
 
 public enum SpellID { None,
+
+    //Tier 1 Essential
+    Alchemy,
+
     //Tier 1 Complex
-    HagsRemedy,SeaferersCharm,PotionOfAphrodite,MausoleumRitual,
+    HagsRemedy,SeaferersCharm,PotionOfAphrodite,MausoleumRitual, ConfoundMirror,
     //Tier 1 Simple
-    LionheartPotion,BlessingOfWorms,SleepersSun,ChainOfLoyalty,VisionsOfInferno,CharlatansWig,SlitheringSensation,SeverDeformity,HeedTheBirds,RevealWorth,ConfoundMirror,
+    LionheartPotion,BlessingOfWorms,SleepersSun,ChainOfLoyalty,VisionsOfInferno,CharlatansWig,SlitheringSensation,SeverDeformity,HeedTheBirds,RevealWorth,
     
     //Tier 2 Complex
     MatingRitual,ImmutableWords,Incense,MaskOfDread,Stardust,
@@ -24,14 +28,15 @@ public enum SpellID { None,
 public enum SpellTag { Subtle, Violent }
 public enum SpellEffect
 {
+    MakeAurum,
     //Tier 1
-    IrritationHex,CureWarts,SanctifyCorpse,InspireBravery,InspireLove,
-    AbjureNightmares,KnowWeather,InspireNightmares,GrowHair,KnowValue,
+    Irritation,CureWarts,SanctifyCorpse,InstillBravery,InspireAffection,
+    ProtectDreams,PredictWeather,SendNightmares,GrowHair,DiscernValue,
     //Tier 2
-    EmbarassmentHex,MakeFearsome,AlterMemory,KnowEnchantment,DeafnessHex,
-    SanctifyWedding,KnowAdmirer,CureImpotence,BanishGhost,InspireHatred,
+    Embarass,MakeFearsome,AlterMemory,KnowEnchantment,Deafen,
+    SanctifyWedding,RevealAdmirer,CureImpotence,BanishGhost,InspireHatred,
     //Tier 3
-    CureLeprosy,CureMuteness,SanctifyBirth,SanctifyPerformance,InspireDespondency,
+    CureLeprosy,GiveSpeach,BlessChild,SanctifyPerformance,InspireDespondency,
     InspireObsession,HexGout,HexBlindness,UnderstandLanguage,KnowParentage
 
 
@@ -49,6 +54,11 @@ public class Spell
     {
         Definitions = new Dictionary<SpellID, Spell>();
 
+        new Spell("Produce Aurum", SpellID.Alchemy, 1, DomainID.Immolian)
+            .setEffects(SpellEffect.MakeAurum)
+            .setRequiresValidTarget(false)
+            .setAurumProduced(1);
+
         //Tier 1 Spells - Cost 6
 
         new Spell("Hag's Remedy", SpellID.HagsRemedy, 1, DomainID.Waeor)
@@ -57,27 +67,27 @@ public class Spell
             .addIngredient(IngredientID.Parchment, 3);
 
         new Spell("Seafarer's Charm", SpellID.SeaferersCharm, 1, DomainID.Tempus)
-            .setEffects(SpellEffect.KnowWeather, SpellEffect.KnowValue)
+            .setEffects(SpellEffect.PredictWeather, SpellEffect.DiscernValue)
             .addIngredient(IngredientID.Parchment, 1)
             .addIngredient(IngredientID.Salt, 1);
 
         new Spell("Potion of Aphrodite", SpellID.PotionOfAphrodite, 1, DomainID.Immolian)
-            .setEffects(SpellEffect.InspireLove, SpellEffect.InspireBravery)
+            .setEffects(SpellEffect.InspireAffection, SpellEffect.InstillBravery)
             .addIngredient(IngredientID.Ink, 1)
             .addIngredient(IngredientID.Candle, 1);
 
         new Spell("Mausoleum Ritual", SpellID.MausoleumRitual, 1, DomainID.Penumok)
-            .setEffects(SpellEffect.SanctifyCorpse, SpellEffect.InspireNightmares)
+            .setEffects(SpellEffect.SanctifyCorpse, SpellEffect.SendNightmares)
             .addIngredient(IngredientID.Parchment, 2)
             .addIngredient(IngredientID.Ink, 2);
 
         new Spell("Confound Mirrors", SpellID.ConfoundMirror, 1, DomainID.Anestra)
-            .setEffects(SpellEffect.AbjureNightmares, SpellEffect.IrritationHex)
+            .setEffects(SpellEffect.ProtectDreams, SpellEffect.Irritation)
             .addIngredient(IngredientID.Quartz, 1);
 
         //IrritationHex, CureWarts, SanctifyCorpse, CreateLuck, InspireLove, AbjureNightmares, KnowWeather, InspireNightmares, GrowHair, KnowValue,
         new Spell("Lionheart Potion", SpellID.LionheartPotion, 1, DomainID.Waeor)
-            .setEffects(SpellEffect.InspireBravery)
+            .setEffects(SpellEffect.InstillBravery)
             .addIngredient(IngredientID.Fang, 1)
             .addIngredient(IngredientID.Ink, 1)
             .addIngredient(IngredientID.Parchment, 1);
@@ -87,17 +97,17 @@ public class Spell
             .addIngredient(IngredientID.Fang, 2);
             
         new Spell("Sleeper's Sun", SpellID.SleepersSun, 1, DomainID.Tempus)
-            .setEffects(SpellEffect.AbjureNightmares)
+            .setEffects(SpellEffect.ProtectDreams)
             .addIngredient(IngredientID.Salt, 1)
             .addIngredient(IngredientID.Parchment, 1);//Cheap!
 
         new Spell("Chains of Loyalty", SpellID.ChainOfLoyalty, 1, DomainID.Tempus)
-            .setEffects(SpellEffect.AbjureNightmares)
+            .setEffects(SpellEffect.ProtectDreams)
             .addIngredient(IngredientID.Salt, 1)
             .addIngredient(IngredientID.Parchment, 1);
 
         new Spell("Vision of Inferno", SpellID.VisionsOfInferno, 1, DomainID.Immolian)
-           .setEffects(SpellEffect.InspireNightmares)
+           .setEffects(SpellEffect.SendNightmares)
            .addIngredient(IngredientID.Candle, 1)
            .addIngredient(IngredientID.Parchment, 2);
 
@@ -107,7 +117,7 @@ public class Spell
            .addIngredient(IngredientID.Parchment, 2);
 
         new Spell("Slithering Sensation", SpellID.SlitheringSensation, 1, DomainID.Penumok)
-           .setEffects(SpellEffect.IrritationHex)
+           .setEffects(SpellEffect.Irritation)
            .addIngredient(IngredientID.Ink, 3);
 
         new Spell("Gouge Deformity", SpellID.SeverDeformity, 1, DomainID.Penumok)
@@ -117,11 +127,11 @@ public class Spell
            .addIngredient(IngredientID.Fang, 1);
 
         new Spell("Speak with Birds", SpellID.HeedTheBirds, 1, DomainID.Anestra)
-           .setEffects(SpellEffect.KnowWeather)
+           .setEffects(SpellEffect.PredictWeather)
            .addIngredient(IngredientID.Quartz, 1);
 
         new Spell("Reveal Worth", SpellID.RevealWorth, 1, DomainID.Anestra)
-           .setEffects(SpellEffect.KnowValue)
+           .setEffects(SpellEffect.DiscernValue)
            .addIngredient(IngredientID.Parchment, 4)
            .addIngredient(IngredientID.Ink, 1);
 
@@ -131,17 +141,17 @@ public class Spell
         //Tier 2 Spells - Cost 9
 
         new Spell("Mating Ritual", SpellID.MatingRitual, 2, DomainID.Waeor)
-           .setEffects(SpellEffect.CureImpotence,SpellEffect.KnowAdmirer)
+           .setEffects(SpellEffect.CureImpotence,SpellEffect.RevealAdmirer)
            .addIngredient(IngredientID.Parchment, 7)
            .addIngredient(IngredientID.Ink, 1);
 
         new Spell("Final Words", SpellID.ImmutableWords, 2, DomainID.Tempus)
-           .setEffects(SpellEffect.SanctifyWedding, SpellEffect.DeafnessHex)
+           .setEffects(SpellEffect.SanctifyWedding, SpellEffect.Deafen)
            .addIngredient(IngredientID.Parchment, 7)
            .addIngredient(IngredientID.Ink, 1);
 
         new Spell("Incense", SpellID.Incense, 2, DomainID.Immolian)
-           .setEffects(SpellEffect.InspireHatred, SpellEffect.EmbarassmentHex)
+           .setEffects(SpellEffect.InspireHatred, SpellEffect.Embarass)
            .addIngredient(IngredientID.Parchment, 7)
            .addIngredient(IngredientID.Ink, 1);
 
@@ -162,7 +172,7 @@ public class Spell
            .addIngredient(IngredientID.Ink, 1);
 
         new Spell("Hog's Writhing", SpellID.HogsWriting, 2, DomainID.Waeor)
-          .setEffects(SpellEffect.EmbarassmentHex)
+          .setEffects(SpellEffect.Embarass)
           .addIngredient(IngredientID.Parchment, 7)
           .addIngredient(IngredientID.Ink, 1);
 
@@ -182,12 +192,12 @@ public class Spell
           .addIngredient(IngredientID.Ink, 1);
 
         new Spell("Confuse Speach", SpellID.ConfuseSpeach, 2, DomainID.Immolian)
-          .setEffects(SpellEffect.EmbarassmentHex)
+          .setEffects(SpellEffect.Embarass)
           .addIngredient(IngredientID.Parchment, 7)
           .addIngredient(IngredientID.Ink, 1);
 
         new Spell("Silence of the Grave", SpellID.SilenceOfTheGrave, 2, DomainID.Penumok)
-          .setEffects(SpellEffect.DeafnessHex)
+          .setEffects(SpellEffect.Deafen)
           .addIngredient(IngredientID.Parchment, 7)
           .addIngredient(IngredientID.Ink, 1);
 
@@ -197,7 +207,7 @@ public class Spell
           .addIngredient(IngredientID.Ink, 1);
 
         new Spell("Watch the Watcher", SpellID.WatchTheWatcher, 2, DomainID.Anestra)
-          .setEffects(SpellEffect.KnowAdmirer)
+          .setEffects(SpellEffect.RevealAdmirer)
           .addIngredient(IngredientID.Parchment, 7)
           .addIngredient(IngredientID.Ink, 1);
 
@@ -209,7 +219,7 @@ public class Spell
 
         //Tier 3 Spells - Cost 14
         new Spell("Sacrificial Calf", SpellID.SacrificialCalf, 3, DomainID.Waeor)
-           .setEffects(SpellEffect.SanctifyBirth, SpellEffect.HexGout)
+           .setEffects(SpellEffect.BlessChild, SpellEffect.HexGout)
            .addIngredient(IngredientID.Parchment, 2)
            .addIngredient(IngredientID.Quartz, 2);
 
@@ -229,7 +239,7 @@ public class Spell
            .addIngredient(IngredientID.Quartz, 2);
 
         new Spell("Unstopper Truth", SpellID.UnstopperTruth, 3, DomainID.Anestra)
-           .setEffects(SpellEffect.UnderstandLanguage, SpellEffect.CureMuteness)
+           .setEffects(SpellEffect.UnderstandLanguage, SpellEffect.GiveSpeach)
            .addIngredient(IngredientID.Parchment, 2)
            .addIngredient(IngredientID.Quartz, 2);
 
@@ -245,7 +255,7 @@ public class Spell
            .addIngredient(IngredientID.Quartz, 2);
 
         new Spell("Divine Arrival", SpellID.DivineArrival, 3, DomainID.Tempus)
-           .setEffects(SpellEffect.SanctifyBirth)
+           .setEffects(SpellEffect.BlessChild)
            .addIngredient(IngredientID.Parchment, 2)
            .addIngredient(IngredientID.Quartz, 2);
 
@@ -260,7 +270,7 @@ public class Spell
            .addIngredient(IngredientID.Quartz, 2);
 
         new Spell("Loosen Tongue", SpellID.LoosenTongue, 3, DomainID.Immolian)
-           .setEffects(SpellEffect.CureMuteness)
+           .setEffects(SpellEffect.GiveSpeach)
            .addIngredient(IngredientID.Parchment, 2)
            .addIngredient(IngredientID.Quartz, 2);
 
@@ -316,10 +326,15 @@ public class Spell
         skill = castTime;
         scrollCost = skill * 10;
         IngredientCost = new Dictionary<IngredientID, int>();
+        ArtifactsRequired = new List<ArtifactID>();
+        EffectsProduced = new List<SpellEffect>();
         requiresValidTarget = true;
+        sprite = Util.RandomElement(LayoutManager.Main.SpellIcons);
         Definitions.Add(id, this);
+
     }
 
+    public Sprite sprite;
     public DomainID domain;
     public string name;
     public string description;
@@ -331,6 +346,7 @@ public class Spell
     public Dictionary<IngredientID, int> IngredientCost;
     public List<ArtifactID> ArtifactsRequired;
     public List<SpellEffect> EffectsProduced;
+    public int AurumProduced = 0;
 
     public string GetDescription()
     {
@@ -345,6 +361,8 @@ public class Spell
             Ingredient ingredient = Ingredient.Definitions[entry.Key];
             output += "  - " + Mathf.Min(Engine.Hero.myIngredients[entry.Key], IngredientCost[entry.Key]) + "/" + IngredientCost[entry.Key] + " " + ingredient.name + "\n";
         }
+       
+
         
         output += "\n EFFECTS \n";
         foreach (SpellEffect effect in EffectsProduced)
@@ -362,6 +380,18 @@ public class Spell
     public Spell addIngredient(IngredientID ingr, int quantity)
     {
         IngredientCost.Add(ingr, quantity);
+        return this;
+    }
+
+    public Spell setAurumProduced(int i)
+    {
+        AurumProduced = i;
+        return this;
+    }
+
+    public Spell setRequiresValidTarget(bool require)
+    {
+        requiresValidTarget = require;
         return this;
     }
 

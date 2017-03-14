@@ -389,7 +389,8 @@ public class Engine : MonoBehaviour
 
         Hero = new Player();
         //Hero.gainSpell(SpellID.ToadHex);
-        Hero.gainSpell(SpellID.HagsRemedy);
+        Hero.gainSpell(Util.RandomElement(new SpellID[] { SpellID.HagsRemedy, SpellID.SeaferersCharm, SpellID.PotionOfAphrodite, SpellID.MausoleumRitual, SpellID.ConfoundMirror }));
+        Hero.gainSpell(SpellID.Alchemy);
 
         SwitchMarket(MarketID.HiddenMarket);
         NewDay();

@@ -61,8 +61,8 @@ public class Player : Wizard
         gainIngredient(IngredientID.Ink, 3);
         gainIngredient(IngredientID.Fang, 1);
         gainIngredient(IngredientID.Candle, 1);
-        gainIngredient(IngredientID.Salt, 0);
-        gainIngredient(IngredientID.Quartz, 0);
+        gainIngredient(IngredientID.Salt, 1);
+        gainIngredient(IngredientID.Quartz, 1);
     }
 
     public bool canBuyIngredient(IngredientID ingredient, Market market)
@@ -141,12 +141,16 @@ public class Player : Wizard
             Debug.LogError("Casting Spell against permission...");
         }
 
+        //consume ingredients
         foreach (KeyValuePair<IngredientID, int> entry in spell.IngredientCost)
         {
             myIngredients[entry.Key] -= entry.Value;
         }
 
-        //consume ingredients
+        //gain results
+        aurum += spell.AurumProduced;
+
+
 
         foreach (SpellEffect effect in spell.EffectsProduced)
         {

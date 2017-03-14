@@ -10,6 +10,7 @@ public class ButtonPendingJob : MonoBehaviour {
     {
         myJob = job;
         ButtonText.text = job.title;
+        gameObject.GetComponent<Image>().sprite = myJob.patron.sprite;
     }
 
     public void Click()

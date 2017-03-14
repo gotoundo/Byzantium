@@ -17,12 +17,12 @@ public class LayoutManager : MonoBehaviour {
     public ButtonAcceptedJob[] AcceptedJobButtons;
     public ButtonSpellbookSpell[] SpellbookSpellButtons;
 
-    
+    public Image SpellDisplayIcon;
     public Text SpellNameText;
     public Text SpellDescriptionText;
     public Button SpellCastButton;
 
-   
+    public Image JobDisplayIcon;
     public Text JobTitleText;
     public Text JobDescriptionText;
     public Button AcceptJobButton;
@@ -32,6 +32,7 @@ public class LayoutManager : MonoBehaviour {
     public GameObject SpellbookLocationPanel;
     public GameObject MarketsLocationPanel;
     public GameObject ArtifactsLocationPanel;
+    public GameObject NobilityLocationPanel;
 
     public ButtonBuyIngredient[] MarketPurchaseIngredientButtons;
     public ButtonBuyScroll[] MarketPurchaseScrollButtons;
@@ -40,12 +41,18 @@ public class LayoutManager : MonoBehaviour {
     public GameObject CurrentLocation;
     public Text MarketTitleText;
 
-    public ButtonSwitchMarket[] SelectMarketButtons; 
+    public ButtonSwitchMarket[] SelectMarketButtons;
+
+
+
+    public Sprite[] MalePortraits;
+    public Sprite[] FemalePortraits;
+    public Sprite[] SpellIcons;
 
 
     void AcquireCollections()
     {
-        LocationPanels = new GameObject[] { SpellbookLocationPanel, MarketsLocationPanel, ArtifactsLocationPanel };
+        LocationPanels = new GameObject[] { SpellbookLocationPanel, MarketsLocationPanel, ArtifactsLocationPanel, NobilityLocationPanel };
     }
 
     public void SetLocation(GameObject location)
@@ -97,12 +104,14 @@ public class LayoutManager : MonoBehaviour {
     {
         if (currentJob == null)
         {
-           // Debug.LogError("JOB IS NULL");
+            // Debug.LogError("JOB IS NULL");
+            JobDisplayIcon.sprite = null;
             JobTitleText.text = "No Job Selected";
             JobDescriptionText.text = "Go to sleep and see if you get new patrons tomorrow.";
         }
         else
         {
+            JobDisplayIcon.sprite = currentJob.patron.sprite;
             JobTitleText.text = currentJob.title;
             JobDescriptionText.text = currentJob.GetDescription();
         }
@@ -112,11 +121,13 @@ public class LayoutManager : MonoBehaviour {
     {
         if (currentSpell == null)
         {
+            SpellDisplayIcon.sprite = null;
             SpellNameText.text = "No Spell Selected";
             SpellDescriptionText.text = "Select a spell to cast";
         }
         else
         {
+            SpellDisplayIcon.sprite = currentSpell.sprite;
             SpellNameText.text = currentSpell.name;
             SpellDescriptionText.text = currentSpell.GetDescription();
         }
@@ -186,11 +197,20 @@ public class LayoutManager : MonoBehaviour {
         Text buttonText = SpellCastButton.gameObject.GetComponentInChildren<Text>();
 
         if (!hasActions)
-            buttonText.text = "Out of Actions";
+            buttonText.text = "(Out of Actions)";
         else if (!validJobTarget)
-            buttonText.text = "No Target";
+        {
+            if (currentJob == null)
+                buttonText.text = "(No Job Selected)";
+            else if (!currentSpell.helpsCompleteJob(currentJob))
+                buttonText.text = "(Not Applicable)";
+            else if (!Engine.AcceptedJobs.Contains(currentJob))
+                buttonText.text = "(Accept Job First)";
+            else
+                buttonText.text = "(No Target)";
+        }
         else if (!hasMaterials)
-            buttonText.text = "Missing Materials";
+            buttonText.text = "(Missing Materials)";
         else
             buttonText.text = "Cast Spell";
 
@@ -319,7 +339,7 @@ public class LayoutManager : MonoBehaviour {
                 newShitInStores = true;
         }
 
-        LocationButtons[1].gameObject.GetComponentInChildren<Text>().text = "Markets" + (newShitInStores ? " (!)" : "");
+        LocationButtons[1].gameObject.GetComponentInChildren<Text>().text = newShitInStores ? " (!)" : "";
 
 
         MarketTitleText.text = currentMarket.name + " (" + currentMarket.status + ")";

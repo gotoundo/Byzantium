@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 0b9c821ba978a4749b1f30427d176abb
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - NightmareSkin: {fileID: 11400000, guid: f0fd59a0de71c9143afd4653970e8f00, type: 2}
+  - Image1: {fileID: 2800000, guid: 829c042cb943cdc4c82d7e869e66cfec, type: 3}
+  - LoadingAnimation1: {fileID: 2800000, guid: a7ee579fe76783446b3441a79e33a105, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
