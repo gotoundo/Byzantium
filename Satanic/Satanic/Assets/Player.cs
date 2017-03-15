@@ -45,16 +45,15 @@ public class Player : Wizard
 {
     readonly int[] tierRequirements = { 10, 30, 85, 185, 410, 840, 1700 };
     public int aurum;
-    public int Tier;
+    public int Level;
     public int prestige;
-    public float points;
     public Dictionary<IngredientID, int> myIngredients;
    
 
     public Player() : base("Zorlan", 1, 1, HouseID.None)
     {
         aurum = 5;
-        Tier = 1;
+        Level = 1;
         myIngredients = new Dictionary<IngredientID, int>();
 
         gainIngredient(IngredientID.Parchment, 7);
@@ -100,14 +99,14 @@ public class Player : Wizard
                 newTier = 2 + i;
         }
 
-        while (newTier > Tier)
+        while (newTier > Level)
             LevelUp();
     }
 
     public void LevelUp()
     {
         Debug.Log("Level up!");
-        Tier++;
+        Level++;
     }
 
     public void gainSpell(SpellID spell)
@@ -165,16 +164,24 @@ public class Player : Wizard
 
     public void tryCompleteJob(Job job)
     {
-        if (job.isComplete())
+        if (job.isComplete() && !job.rewardGranted)
         {
-            if (!job.rewardGranted)
-            {
-                aurum += job.Reward;
-                GainPrestige(job.Tier);
-                job.rewardGranted = true;
-            }
+            GainRewards(job);
             Engine.SucceedJob(job);
         }
+    }
+
+    public void GainRewards(Job job)
+    {
+        aurum += job.Reward;
+        GainPrestige(job.Tier);
+
+        foreach(KeyValuePair<HouseID, int> repReward in job.RepRewardsSuccess)
+        {
+            NobleHouse.Definitions[repReward.Key].ModifyPlayerRep(repReward.Value);
+        }
+
+        job.rewardGranted = true;
     }
 
     void showJobSuccess(Job job)

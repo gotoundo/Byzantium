@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ButtonBuyIngredient : MonoBehaviour {
 
     public IngredientID myIngredient;
+    public Image image;
 
     public void Click()
     {
@@ -13,6 +15,8 @@ public class ButtonBuyIngredient : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
+
 		
 	}
 	

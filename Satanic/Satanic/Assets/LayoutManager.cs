@@ -13,16 +13,24 @@ public class LayoutManager : MonoBehaviour {
     public Text ResourceText;
     public Text DayText;
 
+    public IngredientCountIcon[] IngredientIcons;
+
     public ButtonPendingJob[] PendingJobButtons;
     public ButtonAcceptedJob[] AcceptedJobButtons;
     public ButtonSpellbookSpell[] SpellbookSpellButtons;
 
+    //House Display
+    public HouseStatusIcon[] HouseStatusIcons;
+
+    //Spell Display
     public Image SpellDisplayIcon;
     public Text SpellNameText;
     public Text SpellDescriptionText;
     public Button SpellCastButton;
 
-    public Image JobDisplayIcon;
+    //Job Display
+    public Image JobPatronIcon;
+    public Image JobHouseIcon;
     public Text JobTitleText;
     public Text JobDescriptionText;
     public Button AcceptJobButton;
@@ -48,7 +56,8 @@ public class LayoutManager : MonoBehaviour {
     public Sprite[] MalePortraits;
     public Sprite[] FemalePortraits;
     public Sprite[] SpellIcons;
-
+    public Sprite[] ResourceSprites;
+    public Sprite[] HouseSprites;
 
     void AcquireCollections()
     {
@@ -105,14 +114,18 @@ public class LayoutManager : MonoBehaviour {
         if (currentJob == null)
         {
             // Debug.LogError("JOB IS NULL");
-            JobDisplayIcon.sprite = null;
+            JobPatronIcon.gameObject.SetActive(false);
+            JobHouseIcon.gameObject.SetActive(false);
             JobTitleText.text = "No Job Selected";
             JobDescriptionText.text = "Go to sleep and see if you get new patrons tomorrow.";
         }
         else
         {
-            JobDisplayIcon.sprite = currentJob.patron.sprite;
-            JobTitleText.text = currentJob.title;
+            JobPatronIcon.gameObject.SetActive(true);
+            JobHouseIcon.gameObject.SetActive(true);
+            JobPatronIcon.sprite = currentJob.patron.sprite;
+            JobHouseIcon.sprite = NobleHouse.Definitions[currentJob.patron.house].sprite;
+            JobTitleText.text = currentJob.GetTitle();
             JobDescriptionText.text = currentJob.GetDescription();
         }
     }
@@ -139,6 +152,7 @@ public class LayoutManager : MonoBehaviour {
     public void InitialDisplayRoutine()
     {
         //Select spellbook panel
+        LoadIcons();
         SetLocation(SpellbookLocationPanel);
         UpdateAll();
     }
@@ -168,13 +182,19 @@ public class LayoutManager : MonoBehaviour {
         DayText.text = "Day " + Engine.currentDay;
 
         string output = "";
-        output += "Aurum " + Engine.Hero.aurum + ", P"+Engine.Hero.prestige+", T"+Engine.Hero.Tier+"\n";
-        foreach (IngredientID id in Ingredient.IDs)
-        {
-            Ingredient ingredient = Ingredient.Definitions[id];
-            output += ingredient.name + " " + Engine.Hero.myIngredients[id] + " - ";
-        }
+        output += Engine.Hero.aurum+" Aurum  (P"+Engine.Hero.prestige+", T"+Engine.Hero.Level+")";
         ResourceText.text = output;
+
+        foreach (IngredientCountIcon ingredientIcon in FindObjectsOfType<IngredientCountIcon>())
+        {
+            ingredientIcon.countText.text = ""+Engine.Hero.myIngredients[ingredientIcon.ingredient];
+        }
+
+        foreach(HouseStatusIcon houseStatus in HouseStatusIcons)
+        {
+            houseStatus.text.text = "" + NobleHouse.Definitions[houseStatus.houseID].playerReputation;
+        }
+
     }
 
     //Spell Window
@@ -358,12 +378,12 @@ public class LayoutManager : MonoBehaviour {
         {
             IngredientID ingredientID = ingredientButton.myIngredient;
             Button button = ingredientButton.GetComponent<Button>();
-            bool marketHasIngredient = currentMarket.Wares.ContainsKey(ingredientID);
+            bool marketHasIngredient = currentMarket.sellsIngredients && currentMarket.Wares.ContainsKey(ingredientID);
             ingredientButton.gameObject.SetActive(marketHasIngredient);
             if (marketHasIngredient)
             {
                 Text buttonText = button.gameObject.GetComponentInChildren<Text>();
-                buttonText.text = ingredientID + " - " + currentMarket.Wares[ingredientID].cost + "a   (x" + currentMarket.Wares[ingredientID].quantity + " left)";
+                buttonText.text = Ingredient.Definitions[ingredientID].name + " - " + currentMarket.Wares[ingredientID].cost + "a   (x" + currentMarket.Wares[ingredientID].quantity + " left)";
             }
             button.interactable = Engine.CanBuyIngredientFromCurrentMarket(ingredientID);
         }
@@ -409,6 +429,13 @@ public class LayoutManager : MonoBehaviour {
     }
 
    
+    public void LoadIcons()
+    {
+        foreach (ButtonBuyIngredient ingredientButton in MarketPurchaseIngredientButtons)
+        {
+            ingredientButton.image.sprite = Ingredient.Definitions[ingredientButton.myIngredient].sprite;
+        }
+    }
 
 
 
@@ -420,8 +447,10 @@ public class LayoutManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-		
-	}
+        
+
+
+    }
 	
 	// Update is called once per frame
 	void Update () {

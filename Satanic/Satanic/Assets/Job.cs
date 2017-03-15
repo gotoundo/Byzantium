@@ -10,7 +10,7 @@ public class Job
     public static void LoadDefinitions()
     {
         AllRandomJobs = new List<Job>();
-        Citizen currentPatron;
+        //Citizen currentPatron;
         int currentRewardMin; //8	12	18	27	41	62	93
         int currentRewardMax;
         int currentTier;
@@ -19,240 +19,240 @@ public class Job
         currentRewardMin = 7;
         currentRewardMax = 10;
 
-        currentPatron = new Citizen("Darius", currentTier, HouseID.Delta);
-        new Job(currentPatron, currentTier,
+        //currentPatron = new Citizen("Darius", currentTier, HouseID.Imperion);
+        new Job(currentTier,
            "Irritating Cousin", "I need you to hex my scheming cousin, nothing permanent.",
            Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.Irritation });
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
            "Irritating Cousin", "I need you to hex my scheming cousin, nothing permanent.",
            Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.Irritation });
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
            "Irritating Cousin", "I need you to hex my scheming cousin, nothing permanent.",
            Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.Irritation });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Irritating Cousin", "I need you to hex my scheming cousin, nothing permanent.",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.Irritation });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
            "Irritating Brother", "I need you to hex my scheming cousin, nothing permanent.",
            Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.Irritation });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
            "Irritating Sister", "I need you to hex my scheming cousin, nothing permanent.",
            Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.Irritation });
 
-        currentPatron = new Citizen("Nestor", currentTier, HouseID.Delta);
-        new Job(currentPatron, currentTier,
+        //currentPatron = new Citizen("Nestor", currentTier, HouseID.Imperion);
+        new Job(currentTier,
             "Unsightly Bumbs", "Please cure my warts, no one will love me like this.",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.CureWarts });
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Unsightly Bumbs", "Please cure my warts, no one will love me like this.",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.CureWarts });
-        new Job(currentPatron, currentTier,
-            "Unsightly Bumbs", "Please cure my warts, no one will love me like this.",
-            Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.CureWarts });
-
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Unsightly Bumbs", "Please cure my warts, no one will love me like this.",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.CureWarts });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
+            "Unsightly Bumbs", "Please cure my warts, no one will love me like this.",
+            Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.CureWarts });
+
+        new Job(currentTier,
             "Stricken by Acne", "Please cure my warts, no one will love me like this.",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.CureWarts });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Ugly Warts", "Please cure my warts, no one will love me like this.",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.CureWarts });
 
-        currentPatron = new Citizen("Melony", currentTier, HouseID.Delta);
-        new Job(currentPatron, currentTier,
+        //currentPatron = new Citizen("Melony", currentTier, HouseID.Imperion);
+        new Job(currentTier,
             "Unsettled Burial", "Please bless my dear departed brother, I'm afraid a necromancer wishes to raise his bones.",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.SanctifyCorpse });
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Unsettled Burial", "Please bless my dear departed brother, I'm afraid a necromancer wishes to raise his bones.",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.SanctifyCorpse });
-        new Job(currentPatron, currentTier,
-            "Unsettled Burial", "Please bless my dear departed brother, I'm afraid a necromancer wishes to raise his bones.",
-            Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.SanctifyCorpse });
-
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Unsettled Burial", "Please bless my dear departed brother, I'm afraid a necromancer wishes to raise his bones.",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.SanctifyCorpse });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
+            "Unsettled Burial", "Please bless my dear departed brother, I'm afraid a necromancer wishes to raise his bones.",
+            Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.SanctifyCorpse });
+
+        new Job(currentTier,
             "Bad Burial", "Please bless my dear departed brother, I'm afraid a necromancer wishes to raise his bones.",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.SanctifyCorpse });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Restless Tomb", "Please bless my dear departed brother, I'm afraid a necromancer wishes to raise his bones.",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.SanctifyCorpse });
 
-        currentPatron = new Citizen("Bellinda", currentTier, HouseID.Delta);
+        //currentPatron = new Citizen("Bellinda", currentTier, HouseID.Imperion);
         //Protect Dreams
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
            "Dark Dreams", "I can't sleep, I'm beset by terrible nightmares. Can you cure them?",
            Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.ProtectDreams });
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
            "Dark Dreams", "I can't sleep, I'm beset by terrible nightmares. Can you cure them?",
            Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.ProtectDreams });
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
            "Dark Dreams", "I can't sleep, I'm beset by terrible nightmares. Can you cure them?",
            Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.ProtectDreams });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Dark Dreams", "I can't sleep, I'm beset by terrible nightmares. Can you cure them?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.ProtectDreams });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Fitful Nights", "I can't sleep, I'm beset by terrible nightmares. Can you cure them?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.ProtectDreams });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Endless Nightmares", "I can't sleep, I'm beset by terrible nightmares. Can you cure them?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.ProtectDreams });
 
-        currentPatron = new Citizen("Margarite", currentTier, HouseID.Delta);
+        //currentPatron = new Citizen("Margarite", currentTier, HouseID.Imperion);
         //Inspire Affection
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Unrequited Love", "My husband is growing old, and his embrace is well-intentioned but unsatisfactory. Can you make him feel passion again?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.InspireAffection });
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Unrequited Love", "My husband is growing old, and his embrace is well-intentioned but unsatisfactory. Can you make him feel passion again?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.InspireAffection });
-        new Job(currentPatron, currentTier,
-            "Unrequited Love", "My husband is growing old, and his embrace is well-intentioned but unsatisfactory. Can you make him feel passion again?",
-            Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.InspireAffection });
-
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Unrequited Love", "My husband is growing old, and his embrace is well-intentioned but unsatisfactory. Can you make him feel passion again?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.InspireAffection });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
+            "Unrequited Love", "My husband is growing old, and his embrace is well-intentioned but unsatisfactory. Can you make him feel passion again?",
+            Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.InspireAffection });
+
+        new Job(currentTier,
             "Parched Lover", "My husband is growing old, and his embrace is well-intentioned but unsatisfactory. Can you make him feel passion again?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.InspireAffection });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Loving Fixation", "My husband is growing old, and his embrace is well-intentioned but unsatisfactory. Can you make him feel passion again?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.InspireAffection });
 
-        currentPatron = new Citizen("Alfonse", currentTier, HouseID.Delta);
+        //currentPatron = new Citizen("Alfonse", currentTier, HouseID.Imperion);
         //Instill Bravery
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Long Odds", "My son is gambling away his inheritance. He'll never stop, but can you give him a little boost?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.InstillBravery });
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Long Odds", "My son is gambling away his inheritance. He'll never stop, but can you give him a little boost?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.InstillBravery });
-        new Job(currentPatron, currentTier,
-            "Long Odds", "My son is gambling away his inheritance. He'll never stop, but can you give him a little boost?",
-            Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.InstillBravery });
-
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Long Odds", "My son is gambling away his inheritance. He'll never stop, but can you give him a little boost?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.InstillBravery });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
+            "Long Odds", "My son is gambling away his inheritance. He'll never stop, but can you give him a little boost?",
+            Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.InstillBravery });
+
+        new Job(currentTier,
             "Unlucky Sod", "My son is gambling away his inheritance. He'll never stop, but can you give him a little boost?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.InstillBravery });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Lucky Day", "My son is gambling away his inheritance. He'll never stop, but can you give him a little boost?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.InstillBravery });
 
-        currentPatron = new Citizen("Horatio", currentTier, HouseID.Delta);
+        //currentPatron = new Citizen("Horatio", currentTier, HouseID.Imperion);
         //Predict Weather
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Stormy Port", "Is the rain going to mess up my shipments?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.PredictWeather });
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Stormy Port", "Is the rain going to mess up my shipments?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.PredictWeather });
-        new Job(currentPatron, currentTier,
-            "Stormy Port", "Is the rain going to mess up my shipments?",
-            Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.PredictWeather });
-
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Stormy Port", "Is the rain going to mess up my shipments?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.PredictWeather });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
+            "Stormy Port", "Is the rain going to mess up my shipments?",
+            Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.PredictWeather });
+
+        new Job(currentTier,
             "Weather Forecast", "Is the rain going to mess up my shipments?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.PredictWeather });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Scan the Skies", "Is the rain going to mess up my shipments?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.PredictWeather });
 
-        currentPatron = new Citizen("Vallerie", currentTier, HouseID.Delta);
+        //currentPatron = new Citizen("Vallerie", currentTier, HouseID.Imperion);
         //Send Nightmares
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Treacherous Sister", "My sister is making a move on my husband. Can you send her a subtle warning?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.SendNightmares });
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Treacherous Sister", "My sister is making a move on my husband. Can you send her a subtle warning?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.SendNightmares });
-        new Job(currentPatron, currentTier,
-            "Treacherous Sister", "My sister is making a move on my husband. Can you send her a subtle warning?",
-            Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.SendNightmares });
-
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Treacherous Sister", "My sister is making a move on my husband. Can you send her a subtle warning?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.SendNightmares });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
+            "Treacherous Sister", "My sister is making a move on my husband. Can you send her a subtle warning?",
+            Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.SendNightmares });
+
+        new Job(currentTier,
            "Dream Attack", "My sister is making a move on my husband. Can you send her a subtle warning?",
            Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.SendNightmares });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
            "Nighttime Revenge", "My sister is making a move on my husband. Can you send her a subtle warning?",
            Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.SendNightmares });
 
-        currentPatron = new Citizen("Peter", currentTier, HouseID.Delta);
+        //currentPatron = new Citizen("Peter", currentTier, HouseID.Imperion);
         //Grow Hair
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Unhappy Dome", "Can you give me back my hair? I used to have such gorgeous locks, and women couldn't get enough...",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.GrowHair });
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Unhappy Dome", "Can you give me back my hair? I used to have such gorgeous locks, and women couldn't get enough...",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.GrowHair });
-        new Job(currentPatron, currentTier,
-            "Unhappy Dome", "Can you give me back my hair? I used to have such gorgeous locks, and women couldn't get enough...",
-            Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.GrowHair });
-
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Unhappy Dome", "Can you give me back my hair? I used to have such gorgeous locks, and women couldn't get enough...",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.GrowHair });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
+            "Unhappy Dome", "Can you give me back my hair? I used to have such gorgeous locks, and women couldn't get enough...",
+            Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.GrowHair });
+
+        new Job(currentTier,
             "Bald and Bereaved", "Can you give me back my hair? I used to have such gorgeous locks, and women couldn't get enough...",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.GrowHair });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Hair Today", "Can you give me back my hair? I used to have such gorgeous locks, and women couldn't get enough...",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.GrowHair });
 
-        currentPatron = new Citizen("Hellen", currentTier, HouseID.Delta);
+        //currentPatron = new Citizen("Hellen", currentTier, HouseID.Imperion);
         //Discern Value
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Motherload", "I've got a dealer who wants to sell me this gold bullion. Can you tell me if it's authentic?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.DiscernValue });
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Motherload", "I've got a dealer who wants to sell me this gold bullion. Can you tell me if it's authentic?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.DiscernValue });
-        new Job(currentPatron, currentTier,
-            "Motherload", "I've got a dealer who wants to sell me this gold bullion. Can you tell me if it's authentic?",
-            Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.DiscernValue });
-
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Motherload", "I've got a dealer who wants to sell me this gold bullion. Can you tell me if it's authentic?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.DiscernValue });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
+            "Motherload", "I've got a dealer who wants to sell me this gold bullion. Can you tell me if it's authentic?",
+            Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.DiscernValue });
+
+        new Job(currentTier,
             "Coin Check", "I've got a dealer who wants to sell me this gold bullion. Can you tell me if it's authentic?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.DiscernValue });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Suspicious Gems", "I've got a dealer who wants to sell me this gold bullion. Can you tell me if it's authentic?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.DiscernValue });
 
@@ -261,126 +261,126 @@ public class Job
         currentRewardMin = 10;
         currentRewardMax = 15;
 
-        currentPatron = new Citizen("Janis", currentTier, HouseID.Delta);
+        //currentPatron = new Citizen("Janis", currentTier, HouseID.Imperion);
         //EmbarassmentHex,CompelTruthtelling,AlterMemory,KnowEnchantment,DeafnessHex,SanctifyWedding,KnowAdmirer,CureImpotence,BanishGhost,IllusionOfUgliness
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "EmbarassmentHex Task", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.Embarass });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "EmbarassmentHex Task", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.Embarass });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "EmbarassmentHex Task", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.Embarass });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Fearsome Task", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.MakeFearsome });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Fearsome Task", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.MakeFearsome });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Fearsome Task", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.MakeFearsome });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "AlterMemory Task", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.AlterMemory });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "AlterMemory Task", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.AlterMemory });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "AlterMemory Task", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.AlterMemory });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "KnowEnchantment Task", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.KnowEnchantment });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "KnowEnchantment Task", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.KnowEnchantment });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "KnowEnchantment Task", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.KnowEnchantment });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "DeafnessHex Task", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.Deafen });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "DeafnessHex Task", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.Deafen });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "DeafnessHex Task", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.Deafen });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "SanctifyWedding Task", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.SanctifyWedding });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "SanctifyWedding Task", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.SanctifyWedding });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "SanctifyWedding Task", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.SanctifyWedding });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "KnowAdmirer Task", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.RevealAdmirer });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "KnowAdmirer Task", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.RevealAdmirer });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "KnowAdmirer Task", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.RevealAdmirer });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "CureImpotence Task", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.CureImpotence });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "CureImpotence Task", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.CureImpotence });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "CureImpotence Task", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.CureImpotence });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "BanishGhost Task", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.BanishGhost });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "BanishGhost Task", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.BanishGhost });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "BanishGhost Task", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.BanishGhost });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Hatred Task", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.InspireHatred });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Hatred Task", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.InspireHatred });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Hatred Task", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.InspireHatred });
 
@@ -388,125 +388,125 @@ public class Job
         currentTier = 3;
         currentRewardMin = 19;
         currentRewardMax = 23;
-        currentPatron = new Citizen("Yellen", currentTier, HouseID.Gamma);
+        //currentPatron = new Citizen("Yellen", currentTier, HouseID.Populus);
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Leprosy", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.CureLeprosy });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Leprosy", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.CureLeprosy });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Leprosy", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.CureLeprosy });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Cure Muteness", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.GiveSpeach });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Cure Muteness", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.GiveSpeach });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Cure Muteness", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.GiveSpeach });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Sanctify Birth", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.BlessChild });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Sanctify Birth", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.BlessChild });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Sanctify Birth", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.BlessChild });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Sanctify Performance", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.SanctifyPerformance });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Sanctify Performance", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.SanctifyPerformance });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Sanctify Performance", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.SanctifyPerformance });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Inspire Despondency", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.InspireDespondency });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Inspire Despondency", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.InspireDespondency });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Inspire Despondency", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.InspireDespondency });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Inspire Obsession", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.InspireObsession });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Inspire Obsession", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.InspireObsession });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Inspire Obsession", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.InspireObsession });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Gout Hex", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.HexGout });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Gout Hex", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.HexGout });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Gout Hex", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.HexGout });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Blindness Hex", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.HexBlindness });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Blindness Hex", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.HexBlindness });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Blindness Hex", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.HexBlindness });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Understand Language", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.UnderstandLanguage });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Understand Language", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.UnderstandLanguage });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Understand Language", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.UnderstandLanguage });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Discover Parentage", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.KnowParentage });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Discover Parentage", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.KnowParentage });
 
-        new Job(currentPatron, currentTier,
+        new Job(currentTier,
             "Discover Parentage", "Can you cast this spell for me?",
             Random.Range(currentRewardMin, currentRewardMax), new SpellEffect[] { SpellEffect.KnowParentage });
 
@@ -523,10 +523,16 @@ public class Job
     public bool rewardGranted = false;
     public int totalTimeToComplete;
     public int remainingTimeToComplete;
+    public Dictionary<HouseID, int> RepRewardsSuccess;
+    public Dictionary<HouseID, int> RepRewardsFailure;
 
-    public Job(Citizen patron, int Tier, string title, string description, int Reward, SpellEffect[] requiredEffects)
+    public Job(int Tier, string title, string description, int Reward, SpellEffect[] requiredEffects)
     {
-        this.patron = patron;
+        NobleHouse randomHouse = Util.RandomElement(NobleHouse.Definitions.Values.ToArray());
+        Patron randomPatron = Util.RandomElement(randomHouse.members);
+        this.patron = randomPatron;
+
+        //this.patron = patron;
         this.Tier = Tier;
         this.title = title;
         this.description = description;
@@ -535,29 +541,64 @@ public class Job
         EffectsProvided = new List<SpellEffect>();
         totalTimeToComplete = 4;
         remainingTimeToComplete = totalTimeToComplete;
+
+        RepRewardsFailure = new Dictionary<HouseID, int>();
+        RepRewardsFailure.Add(patron.house, -Tier);
+
+        RepRewardsSuccess = new Dictionary<HouseID, int>();
+
+        if (Random.Range(0, 1f) < 0.5f)
+        {
+            int fullReward = Tier * 2;
+            RepRewardsSuccess.Add(patron.house, fullReward);
+            RepRewardsSuccess.Add(NobleHouse.Definitions[patron.house].opposedHouse, -(fullReward -1));
+        }
+        else
+        {
+            RepRewardsSuccess.Add(patron.house, Tier);
+        }
+
+
+
         AllRandomJobs.Add(this);
 
+    }
 
+    public string GetTitle()
+    {
+        string status = "";
+        if(accepted)
+            status += "";
+        else
+           status += "";
+        return status + title;
     }
 
     public string GetDescription()
     {
         string output = "";
-        if(accepted)
-            output += "ACCEPTED JOB \n";
-        else
-            output += "AVAILABLE JOB \n";
+        
 
         output += patron.name + " of House " + patron.house + "\n";
         
-        output += "\n" + description + "\n";
+        output += "\n" + description + "";
 
-        output += "\n(Within " + remainingTimeToComplete + " days, cast ";
+        output += " (Within " + remainingTimeToComplete + " days, cast ";
         foreach (SpellEffect effect in EffectsRequired)
             output += effect;
         output += ")";
 
-        output += "\n\n Reward - " + Reward + " Aurum";
+        output += "\n\n Rewards: ";
+        List<string> rewards = new List<string>();
+        rewards.Add(Reward + " Aurum");
+
+        foreach (KeyValuePair<HouseID, int> rewardEntry in RepRewardsSuccess)
+        {
+            string sign = rewardEntry.Value < 0 ? "" : "+";
+            rewards.Add(sign + rewardEntry.Value + " Rep with " + NobleHouse.Definitions[rewardEntry.Key].Title());
+        }
+
+        output += Util.OxfordList(rewards, true, false);
 
 
         return output;
@@ -592,6 +633,5 @@ public class Job
         }
 
         return false;
-
     }
 }

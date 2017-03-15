@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-public enum MarketID { HiddenMarket, MarkovsCurios, DragonTrader};
+public enum MarketID { HiddenMarket, Scriptorium, DragonTrader};
 
 public class Market
 {
@@ -17,34 +17,43 @@ public class Market
     public bool Unlocked = false;
     public int restockDay;
     public int idealScrollCount;
+    public int idealArtifactsSold;
+    public bool sellsIngredients;
     public int Tier;
     public bool NewWares;
+    public int tierUnlocked;
 
     public static void LoadDefinitions()
     {
         Definitions = new Dictionary<MarketID, Market>();
-        Definitions.Add(MarketID.HiddenMarket, new Market("Hidden Market", MarketID.HiddenMarket, 1, 3, 0));
-        Definitions.Add(MarketID.MarkovsCurios, new Market("Markov's Curios", MarketID.MarkovsCurios, 2, 3, 2));
-        Definitions.Add(MarketID.DragonTrader, new Market("Dragon Trader", MarketID.DragonTrader, 3, 3, 5));
-
-        Definitions[MarketID.HiddenMarket].Unlocked = true;
+        new Market("Hidden Market", MarketID.HiddenMarket, true, 1, 0, 0, 0);
+        new Market("Scriptorium", MarketID.Scriptorium, false, 1, 5, 0, 2);
+        new Market("Markov's Curios", MarketID.DragonTrader, true, 2, 0, 5, 5);
     }
 
-    public Market(string name, MarketID ID, int Tier, int idealScrollCount, int restockDay)
+    public Market(string name, MarketID ID, bool sellsIngredients, int tierUnlocked, int idealScrollCount, int idealArtifactsSold, int restockDay)
     {
         this.name = name;
         this.ID = ID;
+        this.sellsIngredients = sellsIngredients;
+        this.tierUnlocked = tierUnlocked;
+        this.idealArtifactsSold = idealArtifactsSold;
         Wares = new Dictionary<IngredientID, Listing>();
         Scrolls = new Dictionary<SpellID, Listing>();
         //restockDay = Random.Range(0, 7);
         this.restockDay = restockDay;
         this.idealScrollCount = idealScrollCount;
-        this.Tier = Tier;
+        this.Tier = 1;
 
-        foreach (IngredientID ingr in Ingredient.IDs)
-            Wares.Add(ingr, new Listing(Ingredient.Definitions[ingr].usualCost, 6));
+        if (sellsIngredients)
+        {
+            foreach (IngredientID ingr in Ingredient.IDs)
+                Wares.Add(ingr, new Listing(Ingredient.Definitions[ingr].usualCost, 10));
+        }
         Restock();
         NormalPrices();
+
+        Definitions.Add(ID, this);
     }
 
     public string GetTabName()
@@ -88,9 +97,9 @@ public class Market
         Scrolls.Clear();
 
         var query = from spellID in Spell.RandomSpells.KeyList()
-                            where Engine.Hero == null || !Engine.Hero.SpellsKnown.Contains(spellID)
-                            where Spell.Definitions[spellID].skill == Tier
-                            select spellID;
+                    where Engine.Hero == null || !Engine.Hero.SpellsKnown.Contains(spellID)
+                    where Spell.Definitions[spellID].skill <= (Engine.Hero == null ? 1 : Engine.Hero.Level)
+                    select spellID;
         List<SpellID> validSpellIDs = new List<SpellID>(query);
         validSpellIDs.Shuffle();
 

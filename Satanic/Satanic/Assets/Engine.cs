@@ -5,14 +5,8 @@ using System.Linq;
 
 public enum ArtifactID { DragonSkull }
 
-public enum HouseID { Alpha, Beta, Delta, Gamma, Zeta, None }
 
-public class NobleHouse
-{
-    string name;
-    HouseID id;
-    int playerReputation;
-}
+
 
 public class Engine : MonoBehaviour
 {
@@ -98,14 +92,14 @@ public class Engine : MonoBehaviour
 
     static void GetJobs()
     {
-        int targetTier = Hero.Tier;
+        int targetTier = Hero.Level;
 
         int minNewJobs = 0;
         int maxNewJobs = 3;
         if (AcceptedJobs.Count <= 1)
             minNewJobs = 1;
 
-        if (Hero.Tier == 1)
+        if (Hero.Level == 1)
         {
             maxNewJobs = 3;
             if (Hero.prestige == 0)
@@ -171,7 +165,7 @@ public class Engine : MonoBehaviour
         List<SpellEffect> storeEffects = PurchasableEffects();
 
         var query = from job in jobCollection
-                    where (!guaranteedEqualTier && job.Tier <= Hero.Tier + (aboveTier? 1 : 0)) || job.Tier == Hero.Tier
+                    where (!guaranteedEqualTier && job.Tier <= Hero.Level + (aboveTier? 1 : 0)) || job.Tier == Hero.Level
                     where (!guaranteedApplicability) || Hero.CanProduceEffects(job.EffectsRequired) || (expandedApplicability && MarketCanProduceEffects(job.EffectsRequired))
                     select job;
 
@@ -223,10 +217,13 @@ public class Engine : MonoBehaviour
 
     public static void CheckEvents()
     {
-        if(currentDay == 3)
-            Market.Definitions[MarketID.MarkovsCurios].Unlocked = true;
-        if (currentDay == 6)
-            Market.Definitions[MarketID.DragonTrader].Unlocked = true;
+        foreach(KeyValuePair<MarketID,Market> entry in Market.Definitions)
+        {
+            if(!entry.Value.Unlocked && entry.Value.tierUnlocked <= Hero.Level)
+            {
+                entry.Value.Unlocked = true;
+            }
+        }
     }
 
     //Markets
@@ -248,6 +245,9 @@ public class Engine : MonoBehaviour
 
     public static bool CanBuyIngredientFromCurrentMarket(IngredientID ingredient)
     {
+        if (!currentMarket.sellsIngredients)
+            return false;
+
         return CanBuyFromListing(currentMarket.Wares[ingredient]);
     }
 
@@ -380,6 +380,7 @@ public class Engine : MonoBehaviour
         SucceededJobs = new List<Job>();
         FailedJobs = new List<Job>();
 
+        NobleHouse.LoadDefinitions();
         Patron.LoadDefinitions();
         Ingredient.LoadDefinitions();
         Spell.LoadDefinitions();
@@ -395,6 +396,11 @@ public class Engine : MonoBehaviour
         SwitchMarket(MarketID.HiddenMarket);
         NewDay();
         LayoutManager.Main.InitialDisplayRoutine();
+    }
+
+    public static void LoseGame(string reason)
+    {
+        Debug.LogError("LOSE GAME: "+reason);
     }
 
   
