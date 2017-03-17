@@ -14,7 +14,7 @@ public class Engine : MonoBehaviour
     public const int daysInWeek = 7;
     public const float jobMatchesHeroEffectChance = 0.5f;
     public const float jobMatchesHeroTierChance = 0.3f;
-    public const float jobCanMatchToMarketScrollsChance = 0.8f;
+    public const float jobCanMatchToMarketScrollsChance = 0.6f;
     const int minimumPrestigeGuaranteedJobEffect = 1;
     
     public static Player Hero;
@@ -116,7 +116,7 @@ public class Engine : MonoBehaviour
         {
             bool guaranteedApplicability = Random.Range(0, 1f) < jobMatchesHeroEffectChance; //search returns true only if hero can produce desire effect
             bool guaranteedEqualTier = Random.Range(0, 1f) < jobMatchesHeroTierChance; //search returns true only if the job is the exact same tier as Hero (otherwise can include lower tiers, and slight chance for upper tier)
-            bool expandedApplicability = Random.Range(0, 1f) < jobCanMatchToMarketScrollsChance; //search will return true if the effect can be bought in unlocked stores
+            bool expandedApplicability = !guaranteedApplicability && Random.Range(0, 1f) < jobCanMatchToMarketScrollsChance; //search will return true if the effect can be bought in unlocked stores
 
             //For the early part of the game, player is guaranteed to get jobs they can solve
             if(Hero.prestige < minimumPrestigeGuaranteedJobEffect)
