@@ -7,6 +7,7 @@ public class ButtonBuyIngredient : MonoBehaviour {
 
     public IngredientID myIngredient;
     public Image image;
+    public Text buttonText;
 
     public void Click()
     {

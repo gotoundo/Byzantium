@@ -14,7 +14,7 @@ public class Engine : MonoBehaviour
     public const int daysInWeek = 7;
     public const float jobMatchesHeroEffectChance = 0.5f;
     public const float jobMatchesHeroTierChance = 0.3f;
-    public const float jobCanMatchToMarketScrollsChance = 0.6f;
+    public const float jobCanMatchToMarketScrollsChance = 0.75f;
     const int minimumPrestigeGuaranteedJobEffect = 1;
     
     public static Player Hero;

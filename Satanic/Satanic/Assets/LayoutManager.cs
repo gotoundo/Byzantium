@@ -382,8 +382,24 @@ public class LayoutManager : MonoBehaviour {
             ingredientButton.gameObject.SetActive(marketHasIngredient);
             if (marketHasIngredient)
             {
-                Text buttonText = button.gameObject.GetComponentInChildren<Text>();
-                buttonText.text = Ingredient.Definitions[ingredientID].name + " - " + currentMarket.Wares[ingredientID].cost + "a   (x" + currentMarket.Wares[ingredientID].quantity + " left)";
+                Ingredient currentIngredient = Ingredient.Definitions[ingredientID];
+                Listing currentListing = currentMarket.Wares[ingredientID];
+                ingredientButton.buttonText.text = currentIngredient.name + " - " + currentListing.cost + "a.  (x" + currentListing.quantity + " left)";
+
+                Color setColor = Color.black;
+                if (currentListing.cost < currentIngredient.usualCost || currentListing.cost == currentIngredient.minCost)
+                {
+                    ingredientButton.buttonText.text += " Cheap!";
+                    setColor = Color.green; //Set green if good price
+                }
+                else if (currentListing.cost > currentIngredient.usualCost || currentListing.cost == currentIngredient.maxCost)
+                {
+                    ingredientButton.buttonText.text += " Pricy!";
+                    setColor = Color.red; //Set red for bad price
+                }
+
+                ingredientButton.buttonText.color = setColor;
+
             }
             button.interactable = Engine.CanBuyIngredientFromCurrentMarket(ingredientID);
         }
