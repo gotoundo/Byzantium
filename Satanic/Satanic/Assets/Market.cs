@@ -18,42 +18,60 @@ public class Market
     public int restockDay;
     public int idealScrollCount;
     public int idealArtifactsSold;
-    public bool sellsIngredients;
-    public int Tier;
+    
     public bool NewWares;
     public int tierUnlocked;
+
+    public bool sellsIngredients
+    {
+        get
+        {
+            return true;
+        }
+    }
 
     public static void LoadDefinitions()
     {
         Definitions = new Dictionary<MarketID, Market>();
-        new Market("Hidden Market", MarketID.HiddenMarket, true, 1, 0, 0, 0);
-        new Market("Scriptorium", MarketID.Scriptorium, false, 1, 5, 0, 2);
-        new Market("Markov's Curios", MarketID.DragonTrader, true, 2, 0, 5, 5);
+
+        //Hidden Market
+        Market HiddenMarket = new Market("Hidden Market", MarketID.HiddenMarket, 1, 3, 0, 0);
+        foreach (IngredientID ingr in Ingredient.IDs)
+            HiddenMarket.AddWares(ingr, 15 - Ingredient.Definitions[ingr].usualCost * 2);
+
+
+        //Scriptorium
+        Market Scriptorium = new Market("Scriptorium", MarketID.Scriptorium, 2, 5, 0, 2);
+            Scriptorium.AddWares(IngredientID.Parchment, 10);
+
+
+        //Markov's Curios
+        Market MarkovsCurios = new Market("Markov's Curios", MarketID.DragonTrader, 3, 0, 5, 5);
+        foreach (IngredientID ingr in Ingredient.IDs)
+            MarkovsCurios.AddWares(ingr,  15 - Ingredient.Definitions[ingr].usualCost * 2);
+
+
     }
 
-    public Market(string name, MarketID ID, bool sellsIngredients, int tierUnlocked, int idealScrollCount, int idealArtifactsSold, int restockDay)
+    public Market(string name, MarketID ID, int tierUnlocked, int idealScrollCount, int idealArtifactsSold, int restockDay)
     {
         this.name = name;
         this.ID = ID;
-        this.sellsIngredients = sellsIngredients;
         this.tierUnlocked = tierUnlocked;
         this.idealArtifactsSold = idealArtifactsSold;
         Wares = new Dictionary<IngredientID, Listing>();
         Scrolls = new Dictionary<SpellID, Listing>();
-        //restockDay = Random.Range(0, 7);
         this.restockDay = restockDay;
         this.idealScrollCount = idealScrollCount;
-        this.Tier = 1;
 
-        if (sellsIngredients)
-        {
-            foreach (IngredientID ingr in Ingredient.IDs)
-                Wares.Add(ingr, new Listing(Ingredient.Definitions[ingr].usualCost, 10));
-        }
-        Restock();
-        NormalPrices();
 
         Definitions.Add(ID, this);
+    }
+
+    void AddWares(IngredientID ingr, int maxQuantity)
+    {
+        Wares.Add(ingr, new Listing(Ingredient.Definitions[ingr].usualCost,maxQuantity));
+        Debug.Log("Adding " + ingr);
     }
 
     public string GetTabName()
@@ -114,9 +132,10 @@ public class Market
 
     public void DailyUpdateStore()
     {
+        status = "";
         if(Engine.currentDay % Engine.daysInWeek == restockDay) //the store is closed on stocking day
         {
-            status = "Closed";
+            status = "(Closed)";
             Open = false;
            // NewWares = false;
             NormalPrices();
@@ -125,19 +144,19 @@ public class Market
         {
             NewWares = true;
             Restock();
-            status = "Sale!";
+           // status = "Sale!";
             Open = true;
             SalePrices();
         }
         else if ((Engine.currentDay -1) % Engine.daysInWeek == restockDay) //right after stocking day, prices are expensive
         {
-            status = "Pricy!";
+          //  status = "Pricy!";
             Open = true;
             ExpensivePrices();
         }
         else //otherwise, a normal fluxuation of prices
         {
-            status = "Open";
+          //  status = "Open";
             Open = true;
             NormalPrices();
         }

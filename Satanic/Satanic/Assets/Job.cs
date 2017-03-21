@@ -518,15 +518,19 @@ public class Job
     public List<SpellEffect> EffectsRequired;
     public List<SpellEffect> EffectsProvided;
     public int Tier;
-    public int Reward;
+    //public int Reward;
     public bool accepted = false;
     public bool rewardGranted = false;
     public int totalTimeToComplete;
     public int remainingTimeToComplete;
-    public Dictionary<HouseID, int> RepRewardsSuccess;
-    public Dictionary<HouseID, int> RepRewardsFailure;
+    //public Dictionary<HouseID, int> RepRewardsSuccess;
+    //public Dictionary<HouseID, int> RepRewardsFailure;
 
-    public Job(int Tier, string title, string description, int Reward, SpellEffect[] requiredEffects)
+
+    public StoryEvent successEvent;
+    public StoryEvent failureEvent;
+
+    public Job(int Tier, string title, string description, int AurumReward, SpellEffect[] requiredEffects)
     {
         NobleHouse randomHouse = Util.RandomElement(NobleHouse.Definitions.Values.ToArray());
         Patron randomPatron = Util.RandomElement(randomHouse.members);
@@ -536,29 +540,34 @@ public class Job
         this.Tier = Tier;
         this.title = title;
         this.description = description;
-        this.Reward = Reward;
         EffectsRequired = new List<SpellEffect>(requiredEffects);
         EffectsProvided = new List<SpellEffect>();
-        totalTimeToComplete = 4;
+        totalTimeToComplete = 3 + Random.Range(0, 2) + Random.Range(0, 2) + Random.Range(0, 2);
         remainingTimeToComplete = totalTimeToComplete;
 
-        RepRewardsFailure = new Dictionary<HouseID, int>();
-        RepRewardsFailure.Add(patron.house, -Tier);
 
-        RepRewardsSuccess = new Dictionary<HouseID, int>();
+        //Calculating rewards
+        Reward successRewards = new Reward()
+            .AddAurum(AurumReward)
+            .AddXP(Tier);
 
-        if (Random.Range(0, 1f) < 0.5f)
+        Reward failureRewards = new Reward()
+            .AddReputation(patron.house, -Tier);
+
+        if (Random.Range(0, 1f) < 0.6f) //usually jobs hurt your rep with someone else
         {
             int fullReward = Tier * 2;
-            RepRewardsSuccess.Add(patron.house, fullReward);
-            RepRewardsSuccess.Add(NobleHouse.Definitions[patron.house].opposedHouse, -(fullReward -1));
+            successRewards.AddReputation(patron.house, fullReward);
+            successRewards.AddReputation(NobleHouse.OpposedHouse[patron.house], -(fullReward - 1));
         }
         else
-        {
-            RepRewardsSuccess.Add(patron.house, Tier);
-        }
+            successRewards.AddReputation(patron.house, Tier);
 
-
+        //Creating resulting events
+        successEvent = new StoryEvent(title + " Complete!", "Nicely done. Here's your payment. \n\n" + successRewards.GetTextDescription()
+            ,patron.sprite,successRewards);
+        failureEvent = new StoryEvent(title + " Failed", "You've failed me and disgraced yourself. \n\n" + failureRewards.GetTextDescription(), patron.sprite, failureRewards);
+        
 
         AllRandomJobs.Add(this);
 
@@ -589,17 +598,8 @@ public class Job
         output += ")";
 
         output += "\n\n Rewards: ";
-        List<string> rewards = new List<string>();
-        rewards.Add(Reward + " Aurum");
 
-        foreach (KeyValuePair<HouseID, int> rewardEntry in RepRewardsSuccess)
-        {
-            string sign = rewardEntry.Value < 0 ? "" : "+";
-            rewards.Add(sign + rewardEntry.Value + " Rep with " + NobleHouse.Definitions[rewardEntry.Key].Title());
-        }
-
-        output += Util.OxfordList(rewards, true, false);
-
+        output += successEvent.immediateRewards.GetTextDescription();
 
         return output;
     }

@@ -10,13 +10,13 @@ public class ButtonAcceptedJob : MonoBehaviour {
     public void Setup(Job job)
     {
         myJob = job;
-        ButtonText.text = job.title;
+        ButtonText.text = "" + job.remainingTimeToComplete+" days";//job.title;
         image.sprite = myJob.patron.sprite;
     }
 
     public void Click()
     {
-        Engine.SetCurrentJob(myJob);
+        Engine.PlayerSelectsJob(myJob);
     }
 
     // Use this for initialization

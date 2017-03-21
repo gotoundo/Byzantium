@@ -20,6 +20,16 @@ public static class Util
         return RandomElement(collection);
     }
 
+    public static bool CollectionOverlap<T>(IEnumerable<T> first, IEnumerable<T> second)
+    {
+        foreach(T item in first)
+        {
+            if (second.Contains(item))
+                return true;
+        }
+        return false;
+    }
+
     public static void Shuffle<T>(this IList<T> list)
     {
         int n = list.Count;
@@ -31,6 +41,16 @@ public static class Util
             list[k] = list[n];
             list[n] = value;
         }
+    }
+
+    public static List<U> ValueList<T,U>(this Dictionary<T,U> dictionary)
+    {
+        return new List<U>(dictionary.Values);
+    }
+
+    public static List<T> KeyList<T, U>(this Dictionary<T, U> dictionary)
+    {
+        return new List<T>(dictionary.Keys);
     }
 
     public static string Proper(string input)

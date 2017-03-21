@@ -10,16 +10,17 @@ public enum ArtifactID { DragonSkull }
 
 public class Engine : MonoBehaviour
 {
+    public const int startingRep = 10;
     public static int currentDay = 0;
     public const int daysInWeek = 7;
-    public const float jobMatchesHeroEffectChance = 0.5f;
+    public const float jobMatchesHeroEffectChance = 0.5f; //otherwise matches a scroll in the store
     public const float jobMatchesHeroTierChance = 0.3f;
-    public const float jobCanMatchToMarketScrollsChance = 0.75f;
+    //public const float jobCanMatchToMarketScrollsChance = 0.75f;
     const int minimumPrestigeGuaranteedJobEffect = 1;
-    
+
     public static Player Hero;
 
-    
+
     public static List<Citizen> AllPatrons;
     public static List<Job> PendingJobs;
     public static List<Job> AcceptedJobs;
@@ -31,13 +32,21 @@ public class Engine : MonoBehaviour
     public static Spell currentSpell;
     public static Job currentJob;
     public static Market currentMarket;
-   
+
+    public static List<StoryEvent> PendingEvents;
+
 
     public static Engine Main;
-    
+
     public static bool hasActionsRemaining;
 
     //static WeightedCollection<Job> RandomJobs;
+
+    public static void AddStoryEvent(StoryEvent story)
+    {
+        PendingEvents.Add(story);
+    }
+
 
 
 
@@ -49,7 +58,7 @@ public class Engine : MonoBehaviour
 
 
         //Update the store prices
-        foreach(KeyValuePair<MarketID, Market> entry in Market.Definitions)
+        foreach (KeyValuePair<MarketID, Market> entry in Market.Definitions)
         {
             entry.Value.DailyUpdateStore();
         }
@@ -57,10 +66,10 @@ public class Engine : MonoBehaviour
 
         DeferAndFailJobs();
         GetJobs();
-        
+
         //Select a new job if there's nothing selected
         AutoSelectJobIfNull();
-        AutoSelectSpellIfNull();
+        BackgroundSelectApplicableSpell();
 
 
         CheckEvents();
@@ -102,7 +111,7 @@ public class Engine : MonoBehaviour
         if (Hero.Level == 1)
         {
             maxNewJobs = 3;
-            if (Hero.prestige == 0)
+            if (Hero.XP == 0)
                 maxNewJobs = 1;
         }
 
@@ -112,20 +121,20 @@ public class Engine : MonoBehaviour
         Job.AllRandomJobs.AddRange(DeferredJobs); //dump all deferred jobs into the greater pool
         DeferredJobs.Clear();
         Job.AllRandomJobs.Shuffle();
-        for (int i = 0; i < Random.Range(minNewJobs, maxNewJobs+1); i++)
+        for (int i = 0; i < Random.Range(minNewJobs, maxNewJobs + 1); i++)
         {
             bool guaranteedApplicability = Random.Range(0, 1f) < jobMatchesHeroEffectChance; //search returns true only if hero can produce desire effect
             bool guaranteedEqualTier = Random.Range(0, 1f) < jobMatchesHeroTierChance; //search returns true only if the job is the exact same tier as Hero (otherwise can include lower tiers, and slight chance for upper tier)
-            bool expandedApplicability = !guaranteedApplicability && Random.Range(0, 1f) < jobCanMatchToMarketScrollsChance; //search will return true if the effect can be bought in unlocked stores
+            bool expandedApplicability = !guaranteedApplicability; //!guaranteedApplicability && Random.Range(0, 1f) < jobCanMatchToMarketScrollsChance; //search will return true if the effect can be bought in unlocked stores
 
             //For the early part of the game, player is guaranteed to get jobs they can solve
-            if(Hero.prestige < minimumPrestigeGuaranteedJobEffect)
+            if (Hero.XP < minimumPrestigeGuaranteedJobEffect)
             {
                 guaranteedApplicability = true;
                 guaranteedEqualTier = true;
                 expandedApplicability = false;
             }
-            
+
             //First try new jobs of my level or lower
             var query = SearchJobs(Job.AllRandomJobs, guaranteedApplicability, guaranteedEqualTier, expandedApplicability);
             if (query.Count() == 0)
@@ -158,18 +167,20 @@ public class Engine : MonoBehaviour
 
     }
 
-    static IEnumerable<Job> SearchJobs(IEnumerable<Job> jobCollection, bool guaranteedApplicability, bool guaranteedEqualTier, bool expandedApplicability)
+    static IEnumerable<Job> SearchJobs(IEnumerable<Job> jobCollection, bool jobSolvedBySpellbook, bool guaranteedEqualTier, bool jobSolvedByMarket)
     {
-        bool aboveTier = Random.Range(0, 1f) < .15f;
+        bool aboveTier = Random.Range(0, 1f) < .10f;
 
         List<SpellEffect> storeEffects = PurchasableEffects();
+        List<SpellEffect> playerEffects = Hero.ProducibleEffects();
 
         var query = from job in jobCollection
-                    where (!guaranteedEqualTier && job.Tier <= Hero.Level + (aboveTier? 1 : 0)) || job.Tier == Hero.Level
-                    where (!guaranteedApplicability) || Hero.CanProduceEffects(job.EffectsRequired) || (expandedApplicability && MarketCanProduceEffects(job.EffectsRequired))
+                    where (!guaranteedEqualTier && job.Tier <= Hero.Level + (aboveTier ? 1 : 0)) || job.Tier == Hero.Level
+                    where !jobSolvedBySpellbook || Util.CollectionOverlap(job.EffectsRequired, playerEffects) //Hero.CanProduceEffects(job.EffectsRequired)
+                    where !jobSolvedByMarket || Util.CollectionOverlap(job.EffectsRequired, storeEffects) //MarketCanProduceEffects(job.EffectsRequired)
                     select job;
 
-        Debug.Log("Searching... " + guaranteedApplicability + ", " + guaranteedEqualTier + "... Found " + query.Count());
+        Debug.Log("Searching... " + jobSolvedBySpellbook + ", " + guaranteedEqualTier + ", " + jobSolvedByMarket + "... Found " + query.Count());
 
         return query;
     }
@@ -180,16 +191,17 @@ public class Engine : MonoBehaviour
     {
         //Make a list of all effects that spells in available stores can produce
         List<SpellEffect> storeEffects = new List<SpellEffect>();
-        foreach(KeyValuePair<MarketID, Market> marketEntry in Market.Definitions)
+        foreach (KeyValuePair<MarketID, Market> marketEntry in Market.Definitions)
         {
             if (marketEntry.Value.Unlocked)
             {
-                foreach(KeyValuePair <SpellID,Listing> listingEntry in marketEntry.Value.Scrolls)
+                //Debug.Log(marketEntry + " is unlocked btw");
+                foreach (KeyValuePair<SpellID, Listing> listingEntry in marketEntry.Value.Scrolls)
                 {
-                    if(listingEntry.Value.quantity > 0)
+                    if (listingEntry.Value.quantity > 0)
                     {
                         Spell scrollSpell = Spell.Definitions[listingEntry.Key];
-                        foreach(SpellEffect effect in scrollSpell.EffectsProduced)
+                        foreach (SpellEffect effect in scrollSpell.EffectsProduced)
                         {
                             if (!storeEffects.Contains(effect))
                                 storeEffects.Add(effect);
@@ -217,9 +229,10 @@ public class Engine : MonoBehaviour
 
     public static void CheckEvents()
     {
-        foreach(KeyValuePair<MarketID,Market> entry in Market.Definitions)
+        //Market Unlocks
+        foreach (KeyValuePair<MarketID, Market> entry in Market.Definitions)
         {
-            if(!entry.Value.Unlocked && entry.Value.tierUnlocked <= Hero.Level)
+            if (!entry.Value.Unlocked && entry.Value.tierUnlocked <= Hero.Level)
             {
                 entry.Value.Unlocked = true;
             }
@@ -237,8 +250,8 @@ public class Engine : MonoBehaviour
 
     public static void BuyIngredientFromCurrentMarket(IngredientID ingredient)
     {
-        Hero.gainIngredient(ingredient, 1);
-        Hero.aurum -= currentMarket.Wares[ingredient].cost;
+        Hero.GainIngredient(ingredient, 1);
+        Hero.Aurum -= currentMarket.Wares[ingredient].cost;
         currentMarket.Wares[ingredient].quantity--;
         LayoutManager.Main.UpdateAll();
     }
@@ -260,7 +273,7 @@ public class Engine : MonoBehaviour
     {
         if (!currentMarket.Open)
             return false;
-        if (Hero.aurum < listing.cost)
+        if (Hero.Aurum < listing.cost)
             return false;
         if (listing.quantity <= 0)
             return false;
@@ -270,14 +283,17 @@ public class Engine : MonoBehaviour
 
     public static void BuyScrollFromCurrentMarket(SpellID spell)
     {
-        Hero.gainSpell(spell);
-        Hero.aurum -= currentMarket.Scrolls[spell].cost;
+        Hero.GainSpell(spell);
+        Hero.Aurum -= currentMarket.Scrolls[spell].cost;
         currentMarket.Scrolls[spell].quantity--;
 
-        if(currentMarket.Scrolls[spell].quantity <= 0)
+        if (currentMarket.Scrolls[spell].quantity <= 0)
         {
             currentMarket.Scrolls.Remove(spell);
         }
+
+        //if the purchased spell fufils the current job, select it
+        BackgroundSelectApplicableSpell();
 
         LayoutManager.Main.UpdateAll();
     }
@@ -285,6 +301,19 @@ public class Engine : MonoBehaviour
 
 
     //Jobs
+
+    public static void PlayEvent(StoryEvent story)
+    {
+        LayoutManager.Main.DisplayEvent(story);
+        Hero.RecieveReward(story.immediateRewards);
+    }
+
+
+    public static void CheckJobForCompletion(Job job)
+    {
+        if (job.isComplete() && !job.rewardGranted)
+            SucceedJob(job);
+    }
 
     public static void AcceptJob()
     {
@@ -300,6 +329,7 @@ public class Engine : MonoBehaviour
         SucceededJobs.Add(job);
         DeselectJobIfCurrent(job);
         LayoutManager.Main.UpdateAll();
+        PlayEvent(job.successEvent);
     }
 
     public static void FailJob(Job job)
@@ -308,6 +338,7 @@ public class Engine : MonoBehaviour
         FailedJobs.Add(job);
         DeselectJobIfCurrent(job);
         LayoutManager.Main.UpdateAll();
+        PlayEvent(job.failureEvent);
     }
 
 
@@ -316,7 +347,7 @@ public class Engine : MonoBehaviour
         PendingJobs.Add(job);
     }
 
-    
+
 
     static void DeselectJobIfCurrent(Job job) //Quiet
     {
@@ -338,23 +369,27 @@ public class Engine : MonoBehaviour
         }
     }
 
-    
+
 
     //Spells
-    static void AutoSelectSpellIfNull()
+   /* static void AutoSelectSpellIfNull()
     {
         if (currentSpell == null)
         {
-            Debug.Log("Pick spell");
-            if (Hero.SpellsKnown.Count > 0)
-                SetCurrentSpell(Hero.SpellsKnown[0]);
+            BackgroundSelectApplicableSpell();
         }
-    }
+    }*/
 
     public static void SetCurrentSpell(SpellID spellID)
     {
         Spell spell = Spell.Definitions[spellID];
         currentSpell = spell;
+        LayoutManager.Main.UpdateAll();
+    }
+
+    public static void ClearCurrentSpell()
+    {
+        currentSpell = null;
         LayoutManager.Main.UpdateAll();
     }
 
@@ -365,14 +400,37 @@ public class Engine : MonoBehaviour
         LayoutManager.Main.UpdateAll();
     }
 
-   
-    
+
+
 
     public void InitializeGame()
     {
         Main = this;
-        
 
+        InitializeCollections();
+        LoadDefinitions();
+        MakePlayer();
+
+        PrepareMarkets();
+
+        NewDay();
+        LayoutManager.Main.InitialDisplayRoutine();
+    }
+
+    public static void WinGame(string reason)
+    {
+        PlayEvent(new StoryEvent("You Win", reason, null, new Reward()));
+        Debug.LogError("Win GAME: " + reason);
+    }
+
+    public static void LoseGame(string reason)
+    {
+        PlayEvent(new StoryEvent("YOU LOSE", reason, null, new Reward()));
+        Debug.LogError("LOSE GAME: " + reason);
+    }
+
+    static void InitializeCollections()
+    {
         PendingJobs = new List<Job>();
         AcceptedJobs = new List<Job>();
         RejectedJobs = new List<Job>();
@@ -380,40 +438,80 @@ public class Engine : MonoBehaviour
         SucceededJobs = new List<Job>();
         FailedJobs = new List<Job>();
 
+        PendingEvents = new List<StoryEvent>();
+    }
+
+    static void LoadDefinitions()
+    {
         NobleHouse.LoadDefinitions();
         Patron.LoadDefinitions();
         Ingredient.LoadDefinitions();
         Spell.LoadDefinitions();
-        Market.LoadDefinitions();
         Job.LoadDefinitions();
-        
+        Market.LoadDefinitions();
+    }
 
+    static void MakePlayer()
+    {
         Hero = new Player();
-        //Hero.gainSpell(SpellID.ToadHex);
-        Hero.gainSpell(Util.RandomElement(new SpellID[] { SpellID.HagsRemedy, SpellID.SeaferersCharm, SpellID.PotionOfAphrodite, SpellID.MausoleumRitual, SpellID.ConfoundMirror }));
-        Hero.gainSpell(SpellID.Alchemy);
+        Hero.GainSpell(Util.RandomElement(new SpellID[] { SpellID.HagsRemedy, SpellID.SeaferersCharm, SpellID.PotionOfAphrodite, SpellID.MausoleumRitual, SpellID.ConfoundMirror }));
+        Hero.GainSpell(SpellID.Alchemy);
+    }
+
+    static void PrepareMarkets()
+    {
+        foreach (KeyValuePair<MarketID, Market> entry in Market.Definitions)
+        {
+            entry.Value.Restock();
+            entry.Value.NormalPrices();
+        }
 
         SwitchMarket(MarketID.HiddenMarket);
-        NewDay();
-        LayoutManager.Main.InitialDisplayRoutine();
     }
 
-    public static void LoseGame(string reason)
+
+
+
+
+
+    public static void PlayerSelectsJob(Job job)
     {
-        Debug.LogError("LOSE GAME: "+reason);
+        SetCurrentJob(job);
     }
 
-  
-
-    
-    
 
     public static void SetCurrentJob(Job job)
     {
-      //  if (job == null)
-           // Debug.LogWarning("JOB IS NULL");
+        //  if (job == null)
+        // Debug.LogWarning("JOB IS NULL");
         currentJob = job;
+        BackgroundSelectApplicableSpell();
         LayoutManager.Main.UpdateAll();
+    }
+
+    public static void BackgroundSelectApplicableSpell()
+    {
+        if (currentJob == null)
+            return;
+
+        //if (currentSpell == null)
+          //  SetCurrentSpell(SpellID.Alchemy);
+
+        if (currentSpell != null && currentSpell.helpsCompleteJob(currentJob))
+            return;
+
+        foreach (SpellID spellID in Hero.SpellsKnown)
+        {
+            Spell spell = Spell.Definitions[spellID];
+            if (spell.helpsCompleteJob(currentJob))
+            {
+                SetCurrentSpell(spellID);
+                return;
+            }
+        }
+
+        ClearCurrentSpell();
+
     }
 
 

@@ -15,7 +15,7 @@ public class Wizard : Citizen
     public List<SpellID> Scrolls;
     public int skill;
 
-    public IEnumerable<SpellEffect> ProducibleEffects()
+    public List<SpellEffect> ProducibleEffects()
     {
         List<SpellEffect> effects = new List<SpellEffect>();
         foreach(SpellID spell in SpellsKnown)
@@ -44,24 +44,32 @@ public class Wizard : Citizen
 public class Player : Wizard
 {
     readonly int[] tierRequirements = { 10, 30, 85, 185, 410, 840, 1700 };
-    public int aurum;
-    public int Level;
-    public int prestige;
+    public int Aurum;
+    public int Level; //skill level
+    public int XP;
+    public Dictionary<HouseID, int> Reputation;
     public Dictionary<IngredientID, int> myIngredients;
    
 
     public Player() : base("Zorlan", 1, 1, HouseID.None)
     {
-        aurum = 5;
+        Aurum = 9;
         Level = 1;
         myIngredients = new Dictionary<IngredientID, int>();
+        Reputation = new Dictionary<HouseID, int>();
 
-        gainIngredient(IngredientID.Parchment, 7);
-        gainIngredient(IngredientID.Ink, 3);
-        gainIngredient(IngredientID.Fang, 1);
-        gainIngredient(IngredientID.Candle, 1);
-        gainIngredient(IngredientID.Salt, 1);
-        gainIngredient(IngredientID.Quartz, 1);
+        GainIngredient(IngredientID.Parchment, 7);
+        GainIngredient(IngredientID.Ink, 3);
+        GainIngredient(IngredientID.Fang, 1);
+        GainIngredient(IngredientID.Candle, 1);
+        GainIngredient(IngredientID.Salt, 1);
+        GainIngredient(IngredientID.Quartz, 1);
+
+        foreach(HouseID house in NobleHouse.Definitions.KeyList())
+        {
+            Reputation.Add(house, Engine.startingRep);
+        }
+
     }
 
     public bool canBuyIngredient(IngredientID ingredient, Market market)
@@ -69,7 +77,7 @@ public class Player : Wizard
         if (!market.Wares.ContainsKey(ingredient))
             return false;
         Listing listing = market.Wares[ingredient];
-        if (aurum < listing.cost)
+        if (Aurum < listing.cost)
             return false;
         if (listing.quantity <= 0)
             return false;
@@ -81,21 +89,55 @@ public class Player : Wizard
         if (canBuyIngredient(ingredient, market))
         {
             market.Wares[ingredient].quantity--;
-            aurum -= market.Wares[ingredient].cost;
-            gainIngredient(ingredient);
+            Aurum -= market.Wares[ingredient].cost;
+            GainIngredient(ingredient);
         }
     }
 
 
-    public void GainPrestige(int points)
-    {
-        prestige += points;
+    //Gaining Rewards
 
+    public void RecieveReward(Reward reward)
+    {
+        GainAurum(reward.Aurum);
+        GainXP(reward.XP);
+        foreach (SpellID spell in reward.Spells)
+            GainSpell(spell);
+        foreach (KeyValuePair<IngredientID, int> entry in reward.Ingredients)
+            myIngredients[entry.Key] += entry.Value;
+        foreach (KeyValuePair<HouseID, int> entry in reward.Reputation)
+            GainReputation(entry.Key, entry.Value);
+
+        foreach (StoryEvent story in reward.Events)
+            Engine.AddStoryEvent(story);
+
+        reward.Awarded = true;
+    }
+
+    public void GainReputation(HouseID house, int amount)
+    {
+        Reputation[house] += amount;
+
+        if(Reputation[house] <= 0)
+        {
+            Engine.LoseGame("YOU HAVE EARNED THE DISPLEASURE OF " + house);
+        }
+
+    }
+
+    public void GainAurum(int amount)
+    {
+        Aurum += amount;
+    }
+    
+    public void GainXP(int points)
+    {
+        XP += points;
        
         int newTier = 1;
         for(int i = 0; i < tierRequirements.Length; i++)
         {
-            if (prestige >= tierRequirements[i])
+            if (XP >= tierRequirements[i])
                 newTier = 2 + i;
         }
 
@@ -109,17 +151,22 @@ public class Player : Wizard
         Level++;
     }
 
-    public void gainSpell(SpellID spell)
+    public void GainSpell(SpellID spell)
     {
         SpellsKnown.Add(spell);
     }
 
-    public void gainIngredient(IngredientID ingr, int amount = 1)
+    public void GainIngredient(IngredientID ingr, int amount = 1)
     {
         if (!myIngredients.ContainsKey(ingr))
             myIngredients.Add(ingr, 0);
         myIngredients[ingr] += amount;
     }
+
+
+
+
+    //Casting Spells
 
     public bool hasMaterialsForSpell(Spell spell)
     {
@@ -147,9 +194,7 @@ public class Player : Wizard
         }
 
         //gain results
-        aurum += spell.AurumProduced;
-
-
+        RecieveReward(spell.CastRewards);
 
         foreach (SpellEffect effect in spell.EffectsProduced)
         {
@@ -157,32 +202,11 @@ public class Player : Wizard
                 job.EffectsProvided.Add(effect);
         }
 
-        tryCompleteJob(job);
+        Engine.CheckJobForCompletion(job);
 
         return true;
     }
 
-    public void tryCompleteJob(Job job)
-    {
-        if (job.isComplete() && !job.rewardGranted)
-        {
-            GainRewards(job);
-            Engine.SucceedJob(job);
-        }
-    }
-
-    public void GainRewards(Job job)
-    {
-        aurum += job.Reward;
-        GainPrestige(job.Tier);
-
-        foreach(KeyValuePair<HouseID, int> repReward in job.RepRewardsSuccess)
-        {
-            NobleHouse.Definitions[repReward.Key].ModifyPlayerRep(repReward.Value);
-        }
-
-        job.rewardGranted = true;
-    }
 
     void showJobSuccess(Job job)
     {

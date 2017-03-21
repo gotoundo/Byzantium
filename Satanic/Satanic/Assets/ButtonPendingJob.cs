@@ -15,7 +15,7 @@ public class ButtonPendingJob : MonoBehaviour {
 
     public void Click()
     {
-        Engine.SetCurrentJob(myJob);
+        Engine.PlayerSelectsJob(myJob);
     }
 
 	// Use this for initialization

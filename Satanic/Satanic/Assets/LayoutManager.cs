@@ -13,6 +13,8 @@ public class LayoutManager : MonoBehaviour {
     public Text ResourceText;
     public Text DayText;
 
+    public EventModal StoryEventPanel;
+
     public IngredientCountIcon[] IngredientIcons;
 
     public ButtonPendingJob[] PendingJobButtons;
@@ -41,6 +43,7 @@ public class LayoutManager : MonoBehaviour {
     public GameObject MarketsLocationPanel;
     public GameObject ArtifactsLocationPanel;
     public GameObject NobilityLocationPanel;
+    
 
     public ButtonBuyIngredient[] MarketPurchaseIngredientButtons;
     public ButtonBuyScroll[] MarketPurchaseScrollButtons;
@@ -108,6 +111,29 @@ public class LayoutManager : MonoBehaviour {
         }
     }
 
+
+    //EVENTS
+
+    public void DisplayEvent(StoryEvent story)
+    {
+        StoryEventPanel.titleText.text = story.title;
+        StoryEventPanel.descriptionText.text = story.description;
+        StoryEventPanel.speakerImage.sprite = story.sprite;
+
+        StoryEventPanel.gameObject.SetActive(true);
+    }
+
+    public void CloseEventPanel()
+    {
+        StoryEventPanel.gameObject.SetActive(false);
+    }
+
+
+
+
+
+
+
     //These are not called by update all - they are driven directly by actions
     void LoadJobDescription()
     {
@@ -134,12 +160,23 @@ public class LayoutManager : MonoBehaviour {
     {
         if (currentSpell == null)
         {
+            SpellDisplayIcon.gameObject.SetActive(false);
             SpellDisplayIcon.sprite = null;
-            SpellNameText.text = "No Spell Selected";
-            SpellDescriptionText.text = "Select a spell to cast";
+
+            if (currentJob == null)
+            {
+                SpellNameText.text = "No Spell Selected";
+                SpellDescriptionText.text = "Select a patron or pick a spell that can be cast freely.";
+            }
+            else
+            {
+                SpellNameText.text = "No Spell Applicable";
+                SpellDescriptionText.text = "Check the market for a spell that can help you satisfy this patron.";
+            }
         }
         else
         {
+            SpellDisplayIcon.gameObject.SetActive(true);
             SpellDisplayIcon.sprite = currentSpell.sprite;
             SpellNameText.text = currentSpell.name;
             SpellDescriptionText.text = currentSpell.GetDescription();
@@ -154,6 +191,7 @@ public class LayoutManager : MonoBehaviour {
         //Select spellbook panel
         LoadIcons();
         SetLocation(SpellbookLocationPanel);
+        CloseEventPanel();
         UpdateAll();
     }
 
@@ -182,7 +220,7 @@ public class LayoutManager : MonoBehaviour {
         DayText.text = "Day " + Engine.currentDay;
 
         string output = "";
-        output += Engine.Hero.aurum+" Aurum  (P"+Engine.Hero.prestige+", T"+Engine.Hero.Level+")";
+        output += Engine.Hero.Aurum+" Aurum  (P"+Engine.Hero.XP+", T"+Engine.Hero.Level+")";
         ResourceText.text = output;
 
         foreach (IngredientCountIcon ingredientIcon in FindObjectsOfType<IngredientCountIcon>())
@@ -192,7 +230,7 @@ public class LayoutManager : MonoBehaviour {
 
         foreach(HouseStatusIcon houseStatus in HouseStatusIcons)
         {
-            houseStatus.text.text = "" + NobleHouse.Definitions[houseStatus.houseID].playerReputation;
+            houseStatus.text.text = "" + Engine.Hero.Reputation[houseStatus.houseID];
         }
 
     }
@@ -276,8 +314,8 @@ public class LayoutManager : MonoBehaviour {
         {
             ButtonAcceptedJob currentButton = AcceptedJobButtons[i];
 
-            if(currentButton.myJob !=null)
-                currentButton.ButtonText.text = currentButton.myJob.title + "(" + currentButton.myJob.remainingTimeToComplete + " days)";
+           // if (currentButton.myJob != null)
+             //   currentButton.ButtonText.text = ""+currentButton.myJob.remainingTimeToComplete;//currentButton.myJob.title + "(" + currentButton.myJob.remainingTimeToComplete + " days)";
 
             if (Engine.AcceptedJobs.Count <= i)
             {
@@ -362,7 +400,7 @@ public class LayoutManager : MonoBehaviour {
         LocationButtons[1].gameObject.GetComponentInChildren<Text>().text = newShitInStores ? " (!)" : "";
 
 
-        MarketTitleText.text = currentMarket.name + " (" + currentMarket.status + ")";
+        MarketTitleText.text = currentMarket.name + " " + currentMarket.status;
 
         //Disable and enable the appropriate market buttons
         foreach(ButtonSwitchMarket marketButton in SelectMarketButtons)
@@ -419,12 +457,17 @@ public class LayoutManager : MonoBehaviour {
                 Button button = scrollButton.GetComponent<Button>();
                 button.interactable = Engine.CanBuySpellFromCurrentMarket(scrollListings.Key);
 
+
+                Spell scrollSpell = Spell.Definitions[scrollListings.Key];
+
+                //Button Icon
+                scrollButton.icon.sprite = scrollSpell.sprite;
+
                 //Button Text
-                Text buttonText = button.gameObject.GetComponentInChildren<Text>();
                 List<string> effectNames = new List<string>();
-                foreach (SpellEffect effect in Spell.Definitions[scrollListings.Key].EffectsProduced)
+                foreach (SpellEffect effect in scrollSpell.EffectsProduced)
                     effectNames.Add("" + effect);
-                buttonText.text = Spell.Definitions[scrollListings.Key].name + " ["+ Util.OxfordList(effectNames, true, false) + "] - " 
+                scrollButton.buttonText.text = scrollSpell.name + " ["+ Util.OxfordList(effectNames, true, false) + "] - " 
                     + currentMarket.Scrolls[scrollListings.Key].cost 
                     + "a"
                     + (currentMarket.Scrolls[scrollListings.Key].quantity > 1 ? "( x" + currentMarket.Scrolls[scrollListings.Key].quantity + " left)" : "");

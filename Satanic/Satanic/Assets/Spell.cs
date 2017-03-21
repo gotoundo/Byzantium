@@ -57,7 +57,7 @@ public class Spell
         new Spell("Produce Aurum", SpellID.Alchemy, 1, DomainID.Immolian)
             .setEffects(SpellEffect.MakeAurum)
             .setRequiresValidTarget(false)
-            .setAurumProduced(1);
+            .setReward(new Reward().AddAurum(1));
 
         //Tier 1 Spells - Cost 6
 
@@ -331,6 +331,7 @@ public class Spell
         requiresValidTarget = true;
         sprite = Util.RandomElement(LayoutManager.Main.SpellIcons);
         Definitions.Add(id, this);
+        CastRewards = new Reward();
 
     }
 
@@ -346,7 +347,7 @@ public class Spell
     public Dictionary<IngredientID, int> IngredientCost;
     public List<ArtifactID> ArtifactsRequired;
     public List<SpellEffect> EffectsProduced;
-    public int AurumProduced = 0;
+    public Reward CastRewards;
 
     public string GetDescription()
     {
@@ -383,9 +384,9 @@ public class Spell
         return this;
     }
 
-    public Spell setAurumProduced(int i)
+    public Spell setReward(Reward reward)
     {
-        AurumProduced = i;
+        this.CastRewards = reward;
         return this;
     }
 

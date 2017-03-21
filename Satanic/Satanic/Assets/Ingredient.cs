@@ -43,11 +43,11 @@ public class Ingredient
         Definitions = new Dictionary<IngredientID, Ingredient>();
 
         Ingredient a = new Ingredient("Parchment", IngredientID.Parchment, 1, 1, 2, LayoutManager.Main.ResourceSprites[1]);
-        Ingredient b = new Ingredient("Ink", IngredientID.Ink, 1, 2, 4, LayoutManager.Main.ResourceSprites[2]);
-        Ingredient c = new Ingredient("Herb", IngredientID.Fang, 2, 3, 5, LayoutManager.Main.ResourceSprites[3]);
-        Ingredient d = new Ingredient("Worm", IngredientID.Candle, 3, 4, 6, LayoutManager.Main.ResourceSprites[4]);
-        Ingredient e = new Ingredient("Ankh", IngredientID.Salt, 4, 5, 7, LayoutManager.Main.ResourceSprites[5]);
-        Ingredient f = new Ingredient("Quartz", IngredientID.Quartz, 5, 6, 8, LayoutManager.Main.ResourceSprites[6]);
+        Ingredient b = new Ingredient("Ink", IngredientID.Ink, 1, 2, 3, LayoutManager.Main.ResourceSprites[2]);
+        Ingredient c = new Ingredient("Herb", IngredientID.Fang, 2, 3, 4, LayoutManager.Main.ResourceSprites[3]);
+        Ingredient d = new Ingredient("Worm", IngredientID.Candle, 3, 4, 5, LayoutManager.Main.ResourceSprites[4]);
+        Ingredient e = new Ingredient("Ankh", IngredientID.Salt, 4, 5, 6, LayoutManager.Main.ResourceSprites[5]);
+        Ingredient f = new Ingredient("Quartz", IngredientID.Quartz, 5, 6, 7, LayoutManager.Main.ResourceSprites[6]);
 
     }
 }
