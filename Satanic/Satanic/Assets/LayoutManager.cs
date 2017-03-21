@@ -170,7 +170,7 @@ public class LayoutManager : MonoBehaviour {
             }
             else
             {
-                SpellNameText.text = "No Spell Applicable";
+                SpellNameText.text = "Spell Not Known";
                 SpellDescriptionText.text = "Check the market for a spell that can help you satisfy this patron.";
             }
         }
@@ -422,7 +422,8 @@ public class LayoutManager : MonoBehaviour {
             {
                 Ingredient currentIngredient = Ingredient.Definitions[ingredientID];
                 Listing currentListing = currentMarket.Wares[ingredientID];
-                ingredientButton.buttonText.text = currentIngredient.name + " - " + currentListing.cost + "a.  (x" + currentListing.quantity + " left)";
+                ingredientButton.buttonText.text = currentIngredient.name + " - " + currentListing.cost + "a" 
+                    + "\n(x" + currentListing.quantity + " left)";
 
                 Color setColor = Color.black;
                 if (currentListing.cost < currentIngredient.usualCost || currentListing.cost == currentIngredient.minCost)
@@ -467,10 +468,11 @@ public class LayoutManager : MonoBehaviour {
                 List<string> effectNames = new List<string>();
                 foreach (SpellEffect effect in scrollSpell.EffectsProduced)
                     effectNames.Add("" + effect);
-                scrollButton.buttonText.text = scrollSpell.name + " ["+ Util.OxfordList(effectNames, true, false) + "] - " 
-                    + currentMarket.Scrolls[scrollListings.Key].cost 
-                    + "a"
-                    + (currentMarket.Scrolls[scrollListings.Key].quantity > 1 ? "( x" + currentMarket.Scrolls[scrollListings.Key].quantity + " left)" : "");
+                scrollButton.buttonText.text = scrollSpell.name
+                    + " - " + currentMarket.Scrolls[scrollListings.Key].cost + "a"
+                    + "\n(" + Util.OxfordList(effectNames, true, false) + ")";
+
+                    //+ (currentMarket.Scrolls[scrollListings.Key].quantity > 1 ? "( x" + currentMarket.Scrolls[scrollListings.Key].quantity + " left)" : "");
 
 
                 currentButtonPosition++;

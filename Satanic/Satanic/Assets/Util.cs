@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,6 +28,14 @@ public static class Util
                 return true;
         }
         return false;
+    }
+
+    public static int Dice(int quantity, int minSide, int maxSide)
+    {
+        int count = 0;
+        for (int i = 0; i < quantity; i++)
+            count += Random.Range(minSide, maxSide + 1);
+        return count;
     }
 
     public static void Shuffle<T>(this IList<T> list)

@@ -308,12 +308,7 @@ public class Spell
         }
     }
 
-    public int getScrollCost()
-    {
-        
-
-        return scrollCosts[skill - 1];
-    }
+ 
 
     //
 
@@ -324,7 +319,7 @@ public class Spell
         this.castTime = castTime;
         this.domain = domain;
         skill = castTime;
-        scrollCost = skill * 10;
+        scrollCost = scrollCosts[skill - 1] + Random.Range(-2,3);
         IngredientCost = new Dictionary<IngredientID, int>();
         ArtifactsRequired = new List<ArtifactID>();
         EffectsProduced = new List<SpellEffect>();

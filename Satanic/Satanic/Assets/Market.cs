@@ -125,7 +125,7 @@ public class Market
         while (Scrolls.Count < idealScrollCount && validSpellIDs.Count > 0)
         {
             SpellID spellID = validSpellIDs.First();
-            Scrolls.Add(spellID, new Listing(Spell.Definitions[spellID].getScrollCost(), 1));
+            Scrolls.Add(spellID, new Listing(Spell.Definitions[spellID].scrollCost, 1));
             validSpellIDs.Remove(spellID);
         }
     }

@@ -103,7 +103,7 @@ public class Engine : MonoBehaviour
     {
         int targetTier = Hero.Level;
 
-        int minNewJobs = 0;
+        int minNewJobs = 1;
         int maxNewJobs = 3;
         if (AcceptedJobs.Count <= 1)
             minNewJobs = 1;
@@ -258,7 +258,10 @@ public class Engine : MonoBehaviour
 
     public static bool CanBuyIngredientFromCurrentMarket(IngredientID ingredient)
     {
-        if (!currentMarket.sellsIngredients)
+        //if (!currentMarket.sellsIngredients)
+          //  return false;
+
+        if (!currentMarket.Wares.ContainsKey(ingredient))
             return false;
 
         return CanBuyFromListing(currentMarket.Wares[ingredient]);
