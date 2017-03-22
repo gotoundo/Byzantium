@@ -14,6 +14,7 @@ public class LayoutManager : MonoBehaviour {
     public Text DayText;
 
     public EventModal StoryEventPanel;
+    public Button EndDayButton;
 
     public IngredientCountIcon[] IngredientIcons;
 
@@ -209,6 +210,7 @@ public class LayoutManager : MonoBehaviour {
         UpdatePatronWindow();
         UpdateSpellWindow();
         UpdateLocationWindow();
+        UpdateOptionButtons();
     }
 
     //The following methods do not call UpdateAll
@@ -233,6 +235,23 @@ public class LayoutManager : MonoBehaviour {
             houseStatus.text.text = "" + Engine.Hero.Reputation[houseStatus.houseID];
         }
 
+    }
+
+    //OptionButtons
+
+    public void UpdateOptionButtons()
+    {
+        bool enableNextDayButton = Engine.CanProgressToNewDay();
+        EndDayButton.interactable = enableNextDayButton;
+        Text dayButtonText = EndDayButton.gameObject.GetComponentInChildren<Text>();
+        if (enableNextDayButton)
+        {
+            dayButtonText.text = "Sleep";
+        }
+        else
+        {
+            dayButtonText.text = "(Accept Required Job)";
+        }
     }
 
     //Spell Window
@@ -304,6 +323,9 @@ public class LayoutManager : MonoBehaviour {
             //Bold selected job
             currentButton.ButtonText.fontStyle = currentJob == currentButton.myJob ? FontStyle.Bold : FontStyle.Normal;
 
+            //Redden mandatory jobs
+            currentButton.ButtonText.color = currentButton.myJob != null && currentButton.myJob.Mandatory ? Color.red : Color.white;
+
         }
 
     }
@@ -329,6 +351,9 @@ public class LayoutManager : MonoBehaviour {
 
             //Bold selected job
             currentButton.ButtonText.fontStyle = currentJob == currentButton.myJob ? FontStyle.Bold : FontStyle.Normal;
+
+            //Redden mandatory jobs
+            currentButton.ButtonText.color = currentButton.myJob != null && currentButton.myJob.Mandatory ? Color.red : Color.white;
         }
     }
 

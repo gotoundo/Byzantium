@@ -10,6 +10,7 @@ public class StoryEvent
     public string description;
     public Sprite sprite;
     public Reward immediateRewards;
+    public bool restartGame = false;
 
     public StoryEvent(string title, string description, Sprite sprite, Reward immediateRewards)
     {

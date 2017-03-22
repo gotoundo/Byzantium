@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 
 public enum ArtifactID { DragonSkull }
@@ -103,10 +104,12 @@ public class Engine : MonoBehaviour
     {
         int targetTier = Hero.Level;
 
-        int minNewJobs = 1;
+        int minNewJobs = 0;
         int maxNewJobs = 3;
-        if (AcceptedJobs.Count <= 1)
+        if (AcceptedJobs.Count == 1)
             minNewJobs = 1;
+        if (AcceptedJobs.Count == 0)
+            minNewJobs = 2;
 
         if (Hero.Level == 1)
         {
@@ -305,10 +308,22 @@ public class Engine : MonoBehaviour
 
     //Jobs
 
+    static StoryEvent currentEvent;
+
     public static void PlayEvent(StoryEvent story)
     {
+        currentEvent = story;
         LayoutManager.Main.DisplayEvent(story);
         Hero.RecieveReward(story.immediateRewards);
+    }
+
+    public static void CloseEvent()
+    {
+        LayoutManager.Main.CloseEventPanel();
+        if(currentEvent != null && currentEvent.restartGame)
+        {
+            SceneManager.LoadScene(0);
+        }
     }
 
 
@@ -422,13 +437,17 @@ public class Engine : MonoBehaviour
 
     public static void WinGame(string reason)
     {
-        PlayEvent(new StoryEvent("You Win", reason, null, new Reward()));
+        StoryEvent gameOver = new StoryEvent("You Win", reason, null, new Reward());
+        gameOver.restartGame = true;
+        PlayEvent(gameOver);
         Debug.LogError("Win GAME: " + reason);
     }
 
     public static void LoseGame(string reason)
     {
-        PlayEvent(new StoryEvent("YOU LOSE", reason, null, new Reward()));
+        StoryEvent gameOver = new StoryEvent("You Lose", reason, null, new Reward());
+        gameOver.restartGame = true;
+        PlayEvent(gameOver);
         Debug.LogError("LOSE GAME: " + reason);
     }
 
@@ -515,6 +534,16 @@ public class Engine : MonoBehaviour
 
         ClearCurrentSpell();
 
+    }
+
+    public static bool CanProgressToNewDay()
+    {
+        foreach(Job job in PendingJobs)
+        {
+            if (job.Mandatory)
+                return false;
+        }
+        return true;
     }
 
 

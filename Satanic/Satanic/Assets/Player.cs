@@ -123,6 +123,11 @@ public class Player : Wizard
             Engine.LoseGame("YOU HAVE EARNED THE DISPLEASURE OF " + house);
         }
 
+        if(Reputation[house] >= 100)
+        {
+            Engine.WinGame("YOU HAVE BEEN EXALTED BY " + house);
+        }
+
     }
 
     public void GainAurum(int amount)

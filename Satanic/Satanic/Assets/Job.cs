@@ -521,6 +521,7 @@ public class Job
     //public int Reward;
     public bool accepted = false;
     public bool rewardGranted = false;
+    public bool Mandatory;
     public int totalTimeToComplete;
     public int remainingTimeToComplete;
     //public Dictionary<HouseID, int> RepRewardsSuccess;
@@ -536,6 +537,8 @@ public class Job
         Patron randomPatron = Util.RandomElement(randomHouse.members);
         this.patron = randomPatron;
 
+        Mandatory = Random.Range(0, 1f) < 0.2f;
+
         //this.patron = patron;
         this.Tier = Tier;
         this.title = title;
@@ -547,21 +550,25 @@ public class Job
 
 
         //Calculating rewards
+        int bigRepReward = Tier * 2;
+        int smallRepReward = Tier;
+
         Reward successRewards = new Reward()
             .AddAurum(AurumReward)
             .AddXP(Tier);
 
         Reward failureRewards = new Reward()
-            .AddReputation(patron.house, -Tier);
+            .AddReputation(patron.house, -bigRepReward);
 
-        if (Random.Range(0, 1f) < 0.6f) //usually jobs hurt your rep with someone else
+        if (Random.Range(0, 1f) < 0.75f) //usually jobs hurt your rep with someone else
         {
-            int fullReward = Tier * 2;
-            successRewards.AddReputation(patron.house, fullReward);
-            successRewards.AddReputation(NobleHouse.OpposedHouse[patron.house], -(fullReward - 1));
+            successRewards.AddReputation(patron.house, bigRepReward);
+            int enemyHousePenalty = Random.Range(bigRepReward - 1, bigRepReward + 1);
+            if(enemyHousePenalty > 0)
+                successRewards.AddReputation(NobleHouse.OpposedHouse[patron.house], -enemyHousePenalty);
         }
         else
-            successRewards.AddReputation(patron.house, Tier);
+            successRewards.AddReputation(patron.house, smallRepReward);
 
         //Creating resulting events
         successEvent = new StoryEvent(title + " Complete!", "Nicely done. Here's your payment. \n\n" + successRewards.GetTextDescription()
@@ -588,9 +595,12 @@ public class Job
         string output = "";
         
 
-        output += patron.name + " of House " + patron.house + "\n";
-        
-        output += "\n" + description + "";
+        output += patron.name + " of House " + patron.house + "\n\n";
+
+        if (Mandatory)
+            output += "MANDATORY. ";
+
+        output +=  description + "";
 
         output += " (Within " + remainingTimeToComplete + " days, cast ";
         foreach (SpellEffect effect in EffectsRequired)
