@@ -133,110 +133,113 @@ public class Spell
         new Spell("Reveal Worth", SpellID.RevealWorth, 1, DomainID.Anestra)
            .setEffects(SpellEffect.DiscernValue)
            .addIngredient(IngredientID.Parchment, 4)
-           .addIngredient(IngredientID.Ink, 1);
+           .addIngredient(IngredientID.Quartz, 1);
 
 
 
-
+        //Parchment 1, Ink 2, Herb/Fang 3, Worm/Candle 4, Ankh/Salt 5, Diamond 6
         //Tier 2 Spells - Cost 9
 
         new Spell("Mating Ritual", SpellID.MatingRitual, 2, DomainID.Waeor)
-           .setEffects(SpellEffect.CureImpotence,SpellEffect.RevealAdmirer)
-           .addIngredient(IngredientID.Parchment, 7)
-           .addIngredient(IngredientID.Ink, 1);
-
+           .setEffects(SpellEffect.CureImpotence, SpellEffect.RevealAdmirer)
+           .addIngredient(IngredientID.Parchment, 1)
+           .addIngredient(IngredientID.Ink, 1)
+           .addIngredient(IngredientID.Fang, 2);
+        
         new Spell("Final Words", SpellID.ImmutableWords, 2, DomainID.Tempus)
            .setEffects(SpellEffect.SanctifyWedding, SpellEffect.Deafen)
-           .addIngredient(IngredientID.Parchment, 7)
-           .addIngredient(IngredientID.Ink, 1);
+           .addIngredient(IngredientID.Parchment, 2)
+           .addIngredient(IngredientID.Ink, 1)
+           .addIngredient(IngredientID.Salt, 1);
 
         new Spell("Incense", SpellID.Incense, 2, DomainID.Immolian)
            .setEffects(SpellEffect.InspireHatred, SpellEffect.Embarass)
-           .addIngredient(IngredientID.Parchment, 7)
-           .addIngredient(IngredientID.Ink, 1);
+           .addIngredient(IngredientID.Parchment, 1)
+           .addIngredient(IngredientID.Candle, 2);
 
         new Spell("Mask of Dread", SpellID.MaskOfDread, 2, DomainID.Penumok)
            .setEffects(SpellEffect.BanishGhost, SpellEffect.MakeFearsome)
-           .addIngredient(IngredientID.Parchment, 7)
-           .addIngredient(IngredientID.Ink, 1);
+           .addIngredient(IngredientID.Parchment, 3)
+           .addIngredient(IngredientID.Ink, 3);
 
         new Spell("Stardust", SpellID.Stardust, 2, DomainID.Anestra)
            .setEffects(SpellEffect.KnowEnchantment, SpellEffect.AlterMemory)
            .addIngredient(IngredientID.Parchment, 7)
-           .addIngredient(IngredientID.Ink, 1);
+           .addIngredient(IngredientID.Quartz, 1);
 
 
         new Spell("Ravenous Aspect", SpellID.RavenousAspect, 2, DomainID.Waeor)
            .setEffects(SpellEffect.MakeFearsome)
-           .addIngredient(IngredientID.Parchment, 7)
-           .addIngredient(IngredientID.Ink, 1);
+           .addIngredient(IngredientID.Fang, 3);
 
         new Spell("Hog's Writhing", SpellID.HogsWriting, 2, DomainID.Waeor)
           .setEffects(SpellEffect.Embarass)
-          .addIngredient(IngredientID.Parchment, 7)
-          .addIngredient(IngredientID.Ink, 1);
+          .addIngredient(IngredientID.Fang, 3);
 
         new Spell("Radiant Reliquary", SpellID.RadiantReliquary, 2, DomainID.Tempus)
           .setEffects(SpellEffect.BanishGhost)
-          .addIngredient(IngredientID.Parchment, 7)
-          .addIngredient(IngredientID.Ink, 1);
+          .addIngredient(IngredientID.Parchment, 2)
+          .addIngredient(IngredientID.Ink, 1)
+          .addIngredient(IngredientID.Salt, 1);
 
         new Spell("Song of Rivalry", SpellID.SongOfRivalry, 2, DomainID.Tempus)
           .setEffects(SpellEffect.InspireHatred)
-          .addIngredient(IngredientID.Parchment, 7)
-          .addIngredient(IngredientID.Ink, 1);
+          .addIngredient(IngredientID.Parchment, 2)
+          .addIngredient(IngredientID.Ink, 1)
+          .addIngredient(IngredientID.Salt, 1);
 
         new Spell("Rewrite Memories", SpellID.ReviseMemories, 2, DomainID.Immolian)
           .setEffects(SpellEffect.AlterMemory)
-          .addIngredient(IngredientID.Parchment, 7)
-          .addIngredient(IngredientID.Ink, 1);
+          .addIngredient(IngredientID.Parchment, 1)
+          .addIngredient(IngredientID.Candle, 2);
 
         new Spell("Confuse Speach", SpellID.ConfuseSpeach, 2, DomainID.Immolian)
           .setEffects(SpellEffect.Embarass)
-          .addIngredient(IngredientID.Parchment, 7)
-          .addIngredient(IngredientID.Ink, 1);
+          .addIngredient(IngredientID.Parchment, 1)
+          .addIngredient(IngredientID.Candle, 2);
 
         new Spell("Silence of the Grave", SpellID.SilenceOfTheGrave, 2, DomainID.Penumok)
           .setEffects(SpellEffect.Deafen)
-          .addIngredient(IngredientID.Parchment, 7)
-          .addIngredient(IngredientID.Ink, 1);
+          .addIngredient(IngredientID.Parchment, 3)
+          .addIngredient(IngredientID.Ink, 3);
 
         new Spell("Read Runes", SpellID.ReadRunes, 2, DomainID.Penumok)
           .setEffects(SpellEffect.KnowEnchantment)
-          .addIngredient(IngredientID.Parchment, 7)
-          .addIngredient(IngredientID.Ink, 1);
+          .addIngredient(IngredientID.Parchment, 3)
+          .addIngredient(IngredientID.Ink, 3);
 
         new Spell("Watch the Watcher", SpellID.WatchTheWatcher, 2, DomainID.Anestra)
           .setEffects(SpellEffect.RevealAdmirer)
-          .addIngredient(IngredientID.Parchment, 7)
-          .addIngredient(IngredientID.Ink, 1);
+          .addIngredient(IngredientID.Parchment, 4)
+          .addIngredient(IngredientID.Quartz, 1);
 
         new Spell("Winter Ceremony", SpellID.WinterCeremony, 2, DomainID.Anestra)
           .setEffects(SpellEffect.SanctifyWedding)
-          .addIngredient(IngredientID.Parchment, 7)
-          .addIngredient(IngredientID.Ink, 1);
+          .addIngredient(IngredientID.Parchment, 4)
+          .addIngredient(IngredientID.Quartz, 1);
 
 
+        //Parchment 1, Ink 2, Herb/Fang 3, Worm/Candle 4, Ankh/Salt 5, Diamond 6
         //Tier 3 Spells - Cost 14
         new Spell("Sacrificial Calf", SpellID.SacrificialCalf, 3, DomainID.Waeor)
            .setEffects(SpellEffect.BlessChild, SpellEffect.HexGout)
            .addIngredient(IngredientID.Parchment, 2)
-           .addIngredient(IngredientID.Quartz, 2);
+           .addIngredient(IngredientID.Fang, 4);
 
         new Spell("The Golden Crown", SpellID.TheGoldenCrown, 3, DomainID.Tempus)
            .setEffects(SpellEffect.HexBlindness, SpellEffect.KnowParentage)
-           .addIngredient(IngredientID.Parchment, 2)
-           .addIngredient(IngredientID.Quartz, 2);
+           .addIngredient(IngredientID.Parchment, 4)
+           .addIngredient(IngredientID.Salt, 2);
 
         new Spell("Masquerade", SpellID.Masquerade, 3, DomainID.Immolian)
            .setEffects(SpellEffect.InspireObsession, SpellEffect.SanctifyPerformance)
            .addIngredient(IngredientID.Parchment, 2)
-           .addIngredient(IngredientID.Quartz, 2);
+           .addIngredient(IngredientID.Candle, 3);
 
         new Spell("Mummify", SpellID.Mummify, 3, DomainID.Penumok)
            .setEffects(SpellEffect.CureLeprosy, SpellEffect.InspireDespondency)
            .addIngredient(IngredientID.Parchment, 2)
-           .addIngredient(IngredientID.Quartz, 2);
+           .addIngredient(IngredientID.Ink, 6);
 
         new Spell("Unstopper Truth", SpellID.UnstopperTruth, 3, DomainID.Anestra)
            .setEffects(SpellEffect.UnderstandLanguage, SpellEffect.GiveSpeach)
@@ -247,42 +250,42 @@ public class Spell
         new Spell("Serpent's Molt", SpellID.SerpentsMolt, 3, DomainID.Waeor)
            .setEffects(SpellEffect.CureLeprosy)
            .addIngredient(IngredientID.Parchment, 2)
-           .addIngredient(IngredientID.Quartz, 2);
+           .addIngredient(IngredientID.Fang, 4);
 
         new Spell("Satyr's Song", SpellID.DruidsDance, 3, DomainID.Waeor)
            .setEffects(SpellEffect.SanctifyPerformance)
            .addIngredient(IngredientID.Parchment, 2)
-           .addIngredient(IngredientID.Quartz, 2);
+           .addIngredient(IngredientID.Fang, 4);
 
         new Spell("Divine Arrival", SpellID.DivineArrival, 3, DomainID.Tempus)
            .setEffects(SpellEffect.BlessChild)
-           .addIngredient(IngredientID.Parchment, 2)
-           .addIngredient(IngredientID.Quartz, 2);
+           .addIngredient(IngredientID.Parchment, 4)
+           .addIngredient(IngredientID.Salt, 2);
 
         new Spell("Legendary Focus", SpellID.LegendaryFocus, 3, DomainID.Tempus)
            .setEffects(SpellEffect.InspireObsession)
-           .addIngredient(IngredientID.Parchment, 2)
-           .addIngredient(IngredientID.Quartz, 2);
+           .addIngredient(IngredientID.Parchment, 4)
+           .addIngredient(IngredientID.Salt, 2);
 
         new Spell("Intuit Intention", SpellID.IntuitIntention, 3, DomainID.Immolian)
            .setEffects(SpellEffect.UnderstandLanguage)
            .addIngredient(IngredientID.Parchment, 2)
-           .addIngredient(IngredientID.Quartz, 2);
+           .addIngredient(IngredientID.Candle, 3);
 
         new Spell("Loosen Tongue", SpellID.LoosenTongue, 3, DomainID.Immolian)
            .setEffects(SpellEffect.GiveSpeach)
            .addIngredient(IngredientID.Parchment, 2)
-           .addIngredient(IngredientID.Quartz, 2);
+           .addIngredient(IngredientID.Candle, 3);
 
         new Spell("Darkness of Depths", SpellID.DarknessOfDepths, 3, DomainID.Penumok)
            .setEffects(SpellEffect.HexBlindness)
            .addIngredient(IngredientID.Parchment, 2)
-           .addIngredient(IngredientID.Quartz, 2);
+           .addIngredient(IngredientID.Ink, 6);
 
         new Spell("Corrupt Blood", SpellID.CorruptBlood, 3, DomainID.Penumok)
            .setEffects(SpellEffect.HexGout)
            .addIngredient(IngredientID.Parchment, 2)
-           .addIngredient(IngredientID.Quartz, 2);
+           .addIngredient(IngredientID.Ink, 6);
 
         new Spell("Chart Ancestry", SpellID.ChartAncestry, 3, DomainID.Anestra)
            .setEffects(SpellEffect.KnowParentage)
