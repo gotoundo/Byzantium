@@ -5,12 +5,13 @@ using UnityEngine;
 public class ButtonPendingJob : MonoBehaviour {
 
     public Job myJob;
-    public Text ButtonText; 
+    public Text ButtonText;
+    public Image icon;
     public void Setup(Job job)
     {
         myJob = job;
         ButtonText.text = job.title;
-        gameObject.GetComponent<Image>().sprite = myJob.patron.sprite;
+        icon.sprite = myJob.patron.sprite;
     }
 
     public void Click()
@@ -27,4 +28,13 @@ public class ButtonPendingJob : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    void ExchangeRate(int i, int count)
+    {
+        i++;
+        Debug.Log(i + " of " + count);
+        if (i < count)
+            ExchangeRate(i, count + Random.Range(-1, 2));
+    }
+
 }

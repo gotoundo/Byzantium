@@ -30,7 +30,7 @@ public enum SpellEffect
 {
     MakeAurum,
     //Tier 1
-    Irritation,CureWarts,SanctifyCorpse,InstillBravery,InspireAffection,
+    Irritation,CureWarts,SanctifyCorpse,Courage,InspireAffection,
     ProtectDreams,PredictWeather,SendNightmares,GrowHair,DiscernValue,
     //Tier 2
     Embarass,MakeFearsome,AlterMemory,KnowEnchantment,Deafen,
@@ -72,7 +72,7 @@ public class Spell
             .addIngredient(IngredientID.Salt, 1);
 
         new Spell("Potion of Aphrodite", SpellID.PotionOfAphrodite, 1, DomainID.Immolian)
-            .setEffects(SpellEffect.InspireAffection, SpellEffect.InstillBravery)
+            .setEffects(SpellEffect.InspireAffection, SpellEffect.Courage)
             .addIngredient(IngredientID.Ink, 1)
             .addIngredient(IngredientID.Candle, 1);
 
@@ -87,7 +87,7 @@ public class Spell
 
         //IrritationHex, CureWarts, SanctifyCorpse, CreateLuck, InspireLove, AbjureNightmares, KnowWeather, InspireNightmares, GrowHair, KnowValue,
         new Spell("Lionheart Potion", SpellID.LionheartPotion, 1, DomainID.Waeor)
-            .setEffects(SpellEffect.InstillBravery)
+            .setEffects(SpellEffect.Courage)
             .addIngredient(IngredientID.Fang, 1)
             .addIngredient(IngredientID.Ink, 1)
             .addIngredient(IngredientID.Parchment, 1);
